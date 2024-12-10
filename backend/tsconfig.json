@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",                // Используется в Node.js
+    "target": "ES2021",                  // Современная версия JS для оптимальной производительности
+    "lib": ["ES2021", "DOM"],            // Поддержка современных функций JS и браузерных API
+    "strict": true,                      // Включение строгого режима TypeScript
+    "esModuleInterop": true,             // Упрощает работу с CommonJS модулями
+    "allowSyntheticDefaultImports": true,// Разрешает использовать default import для CommonJS
+    "moduleResolution": "node",          // Разрешение модулей в стиле Node.js
+    "outDir": "./dist",                  // Директория для скомпилированных файлов
+    "rootDir": "./src",                  // Корневая директория исходного кода
+    "resolveJsonModule": true,           // Поддержка импорта JSON файлов
+    "skipLibCheck": true,                // Пропуск проверки типов для библиотек
+    "sourceMap": true,                   // Генерация карт для отладки
+    "emitDecoratorMetadata": true,       // Для работы с декораторами NestJS
+    "experimentalDecorators": true,      // Включение экспериментальных декораторов
+    "strictPropertyInitialization": false // Отключение строгой проверки инициализации свойств
+  },
+  "exclude": ["node_modules", "dist"],    // Исключение ненужных директорий
+  "include": ["src/**/*"]                 // Включение всех файлов внутри папки src
+}
