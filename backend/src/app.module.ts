@@ -6,19 +6,24 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 import { UsersController } from './users/users.controller';
 import { UsersModule } from './users/users.module';
-import { UsersService } from './users/users.service';
+import { IUsersService } from './users/users.service';
+import { AuthModule } from './auth/auth.module';
+import { AuthController } from './auth/auth.controller';
+import { AuthService } from './auth/auth.service';
 
 @Module({
   imports: [
     MongooseModule.forRoot('mongodb+srv://lonskoy0304:QeV6cIoPj2x5Y3K6@cluster0.lb8c1lp.mongodb.net/diplom?retryWrites=true&w=majority'), // как перенести в env??
     UsersModule,
+    AuthModule,
     ConfigModule.forRoot({
       isGlobal: true, // Делает конфигурацию env доступной во всем приложении
       envFilePath: '../.env'
     }),
+    AuthModule,
   ],
-  controllers: [AppController, UsersController],
-  providers: [AppService, UsersService],
+  controllers: [AppController, UsersController, AuthController],
+  providers: [AppService, IUsersService, AuthService],
 })
 
 export class AppModule  {}
