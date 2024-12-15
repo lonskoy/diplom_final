@@ -1,38 +1,31 @@
 import { Controller, Get, Post, Body, Param, UseGuards } from '@nestjs/common';
 import { User } from './schemas/user.schema';
-import { IUsersService } from './users.service';
+import { UsersService } from './users.service';
 import { AuthGuard } from '@nestjs/passport';
+import { CretaeUserDto } from './dto/create-user.dto';
 
-@Controller('api')
+@UseGuards(AuthGuard('jwt'))
+@Controller('admin')
 export class UsersController {
-  constructor(private readonly usersService: IUsersService) {}
+  constructor(private readonly usersService: UsersService) {}
 
-  @UseGuards(AuthGuard('jwt'))
-  @Post('admin/users')
-  async create(@Body() data: Partial<User>): Promise<User> {
-    return this.usersService.create(data);
+  @Post('users')
+  async create(@Body() dto: CretaeUserDto): Promise<User> { // используем dto для проверки передаваемых данных с бэкенда
+    return this.usersService.create(dto);
   }
 
-  @UseGuards(AuthGuard('jwt'))
-  @Get('admin/users')
+  @Get('users')
   async findAllAdmin(): Promise<User[]> {
     return this.usersService.findAll();
   }
 
-  @UseGuards(AuthGuard('jwt'))
-  @Get('admin/users/:id')
+  @Get('users/:id')
   async findById(@Param('id') id: string): Promise<User | null> {
     return this.usersService.findById(id);
   }
 
-  @UseGuards(AuthGuard('jwt'))
-  @Get('admin/users/email/:email')
+  @Get('users/email/:email')
   async findByEmail(@Param('email') email: string): Promise<User | null> {
     return this.usersService.findByEmail(email);
-  }
-
-  @Get('manager/users')
-  async findAllManager(): Promise<User[]> {
-    return this.usersService.findAll();
   }
 }

@@ -1,12 +1,15 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { IUsersService } from '../users/users.service';
+import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
+import { Response } from 'express'
+import * as cookie from 'cookie'
 
 @Injectable()
 export class AuthService {
   constructor(
-    @Inject('IUsersService') private readonly usersService: IUsersService,
+    private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
+
   ) {}
 
   async validateUser(email: string, password: string) {
@@ -18,10 +21,20 @@ export class AuthService {
     return null;
   }
 
-  async login(user: any) {
-    const payload = { id: user.id, role: user.role, name: user.name };
-    const token = this.jwtService.sign(payload);
-    console.log('Token issued:', token);
-    return { access_token: token };
+  async login(user: any, response: Response) {
+    const payload = { id: user._id };
+    const access_token = this.jwtService.sign(payload);
+    console.log('Предоставлен токен:', access_token);
+    
+    response.setHeader(                                            //устнавливаем заголовок cookie
+          'Set-Cookie',
+          cookie.serialize('access_token', String(access_token), {
+            maxAge: 3600,
+            domain: 'localhost',
+            path: '/',
+          }),
+        );
+        response.send(); // отправка
+        return response.end(); // завершение сессии 
   }
 }

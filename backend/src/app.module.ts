@@ -1,15 +1,12 @@
 import { Module, OnModuleInit } from '@nestjs/common';
-// import { AppController } from './app.controller';
-// import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import mongoose from 'mongoose';
 
-// import { UsersController } from './users/users.controller';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
-// import { AuthController } from './auth/auth.controller';
-import mongoose from 'mongoose';
-// import { AuthService } from './auth/auth.service';
+
+
 
 @Module({
   imports: [
@@ -21,8 +18,6 @@ import mongoose from 'mongoose';
       envFilePath: '../.env'
     })
   ],
-  // controllers: [AppController, UsersController, AuthController],
-  // providers: [AppService, AuthService],
 })
 
 export class AppModule implements OnModuleInit {

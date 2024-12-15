@@ -5,7 +5,7 @@ import { User, UserDocument } from './schemas/user.schema';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
-export class IUsersService {
+export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
   async create(data: Partial<User>): Promise<User> {
@@ -34,11 +34,11 @@ export class IUsersService {
   async checkUser(email: string, password: string): Promise<any> {
     const user = await this.userModel.findOne({ email }).exec();
     if (!user) {
-      throw new Error('User not found');
+      throw new Error('Пользователь не найден');
     }
     const isPasswordMatch = await bcrypt.compare(password, user.passwordHash);
     if (!isPasswordMatch) {
-      throw new Error('Invalid password');
+      throw new Error('Пароль не верен');
     }
     return user.toObject();
   }

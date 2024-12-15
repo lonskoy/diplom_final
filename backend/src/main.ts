@@ -1,9 +1,15 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
+import { ValidationPipe } from '@nestjs/common'
+import cookieParser from 'cookie-parser'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.setGlobalPrefix('api') // глобальный префикс для всех модулей
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true })); // для валидации полей с помощью dto 
+  app.use(cookieParser()); // добавляет возможность читать куки
+
   const configService = app.get(ConfigService); // Получение ConfigService через Nest.js DI
   const port = configService.get<number>('PORT');
 
