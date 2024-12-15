@@ -1,4 +1,4 @@
-import { Injectable, Param, Get } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User, UserDocument } from './schemas/user.schema';
@@ -9,25 +9,22 @@ export class IUsersService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
   async create(data: Partial<User>): Promise<User> {
-    let { passwordHash, ...otherData } = data; // 
+    let { passwordHash, ...otherData } = data;
     if (!passwordHash) {
-      throw new Error('Password is required'); // Проверка, что пароль передан
+      throw new Error('Password is required');
     }
-    const newPasswordHash = await bcrypt.hash(passwordHash, 10); // Хешируем пароль
-    passwordHash = newPasswordHash
-    const newData = { ...otherData, passwordHash }; // Объединяем остальные данные и хеш пароля
-
-    const newUser = new this.userModel(newData); 
-    return newUser.save(); // 
+    const passwordHashTemp = await bcrypt.hash(passwordHash, 10);
+    passwordHash = passwordHashTemp
+    const newUser = new this.userModel({ ...otherData, passwordHash });
+    return newUser.save();
   }
 
-  @Get(':id')
-  async findById(@Param() id: string): Promise<User | null> {
-    return await this.userModel.findById(id)
+  async findById(id: string): Promise<User | null> {
+    return this.userModel.findById(id);
   }
 
   async findByEmail(email: string): Promise<User | null> {
-    return await this.userModel.findOne({ email }).exec();
+    return this.userModel.findOne({ email }).exec();
   }
 
   async findAll(): Promise<User[]> {
@@ -36,18 +33,13 @@ export class IUsersService {
 
   async checkUser(email: string, password: string): Promise<any> {
     const user = await this.userModel.findOne({ email }).exec();
-
     if (!user) {
-        throw new Error('Пользователь с таким email не найден');
+      throw new Error('User not found');
     }
-
     const isPasswordMatch = await bcrypt.compare(password, user.passwordHash);
-
     if (!isPasswordMatch) {
-        throw new Error('Неверный пароль');
+      throw new Error('Invalid password');
     }
-
     return user.toObject();
-}
-
+  }
 }
