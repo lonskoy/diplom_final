@@ -10,7 +10,12 @@ export class AuthController {
   @UseGuards(AuthGuard('local'))
   @Post('login')
   async login(@Request() req: any, @Res() response: Response) {
-    console.log('User logged in:', req.user);
+    console.log('Авторизовался пользователь:', req.user);
     return this.authService.login(req.user, response);
+  }
+
+  @Post('logout')
+  async logout(@Res() response: Response) {
+    return this.authService.logout(response);
   }
 }

@@ -5,9 +5,10 @@ import { UsersModule } from '../users/users.module';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { LocalStrategy } from './stretegy/local.strategy';
-import { JwtStrategy } from './stretegy/jwt.strategy';
+import { AdminStrategy } from './stretegy/admin.strategy';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserSchema } from '../users/schemas/user.schema';
+import { ManagerStrategy } from './stretegy/manager.strategy';
 
 @Module({
   imports: [
@@ -19,7 +20,7 @@ import { UserSchema } from '../users/schemas/user.schema';
       signOptions: { expiresIn: '1h' },
     }),
   ],
-  providers: [AuthService, LocalStrategy, JwtStrategy], // Указываем JwtService в провайдерах
+  providers: [AuthService, LocalStrategy, AdminStrategy, ManagerStrategy], // Указываем JwtService в провайдерах
   controllers: [AuthController],
 })
 export class AuthModule {}

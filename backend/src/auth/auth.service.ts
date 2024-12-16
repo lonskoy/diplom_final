@@ -10,7 +10,7 @@ export class AuthService {
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
 
-  ) {}
+  ) { }
 
   async validateUser(email: string, password: string) {
     const user = await this.usersService.checkUser(email, password);
@@ -25,16 +25,28 @@ export class AuthService {
     const payload = { id: user._id };
     const access_token = this.jwtService.sign(payload);
     console.log('Предоставлен токен:', access_token);
-    
+
     response.setHeader(                                            //устнавливаем заголовок cookie
-          'Set-Cookie',
-          cookie.serialize('access_token', String(access_token), {
-            maxAge: 3600,
-            domain: 'localhost',
-            path: '/',
-          }),
-        );
-        response.send(); // отправка
-        return response.end(); // завершение сессии 
+      'Set-Cookie',
+      cookie.serialize('access_token', String(access_token), {
+        maxAge: 3600,
+        domain: 'localhost',
+        path: '/',
+      }),
+    );
+    response.send({ message: 'Вы авторизовались в системе'}); // отправка
+    return response.end(); // завершение сессии 
+  }
+
+  async logout(response: Response) {
+    response.setHeader(
+      'Set-Cookie',
+      cookie.serialize('access_token', '', {
+        maxAge: 0, // Устанавливаем срок действия на 0, чтобы удалить куки
+        domain: 'localhost',
+        path: '/',
+      }),
+    );
+    response.send({ message: 'Вы успешно вышли из системы' });
   }
 }

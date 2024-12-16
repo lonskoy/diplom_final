@@ -1,10 +1,12 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, UseGuards } from '@nestjs/common';
 import { User } from './schemas/user.schema';
-import { UsersService } from './users.service';
+import { ManagerService } from './manager.service';
+import { AuthGuard } from '@nestjs/passport';
 
+@UseGuards(AuthGuard('manager'))
 @Controller('manager')
 export class ManagerController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: ManagerService) {}
 
   @Get('users')
   async findAllManager(): Promise<User[]> {
