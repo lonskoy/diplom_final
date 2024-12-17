@@ -8,8 +8,6 @@ import { ClientController } from './client.controller';
 import { ClientService } from './client.service';
 import { JwtModule } from '@nestjs/jwt';
 import { ManagerService } from './manager.service';
-// import { HotelModule } from '../hotel/hotel.module';
-// import { HotelController } from '../hotel/hotel.controller';
 
 @Module({
   imports: [

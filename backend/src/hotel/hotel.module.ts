@@ -12,6 +12,7 @@ import { UsersModule } from '../users/users.module';
   ],
   providers: [HotelService], 
   controllers: [HotelController], 
+  exports: [MongooseModule],
   
 })
 export class HotelModule {}
