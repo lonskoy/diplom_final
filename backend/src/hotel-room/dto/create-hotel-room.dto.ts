@@ -4,18 +4,18 @@ import { IsString, IsNotEmpty, IsArray, IsBoolean, IsOptional } from 'class-vali
 export class CreateHoteRoomlDto {
   @IsString()
   @IsNotEmpty()
-  "description": string
+  description: string
 
   @IsArray()
   @IsOptional()
   @IsString({each: true})
-  "images": string[]
+  images: string[]
 
   @IsBoolean()
   @IsOptional()
-  "isEnabled": boolean
+  isEnabled: boolean
 
   @IsString()
   @IsNotEmpty()
-  "hotel": string
+  hotel: string
 }

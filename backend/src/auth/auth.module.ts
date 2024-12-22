@@ -9,6 +9,7 @@ import { AdminStrategy } from './stretegy/admin.strategy';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserSchema } from '../users/schemas/user.schema';
 import { ManagerStrategy } from './stretegy/manager.strategy';
+import { ClientStrategy } from './stretegy/client.strategy';
 
 @Module({
   imports: [
@@ -20,7 +21,7 @@ import { ManagerStrategy } from './stretegy/manager.strategy';
       signOptions: { expiresIn: '1h' },
     }),
   ],
-  providers: [AuthService, LocalStrategy, AdminStrategy, ManagerStrategy], // Указываем JwtService в провайдерах
+  providers: [AuthService, LocalStrategy, AdminStrategy, ManagerStrategy, ClientStrategy], // Указываем JwtService в провайдерах
   controllers: [AuthController],
 })
 export class AuthModule {}

@@ -1,13 +1,11 @@
-import { IsString, IsNotEmpty } from 'class-validator'
-
+import { IsString, IsNotEmpty } from 'class-validator';
 
 export class CreateHotelDto {
   @IsString()
   @IsNotEmpty()
-  "title": string
+  title: string;
 
   @IsString()
   @IsNotEmpty()
-  "description": string
+  description: string;
 }
-

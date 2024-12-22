@@ -4,13 +4,18 @@ import { HotelRoomController } from './hotel-room.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { HotelRoom, HotelRoomSchema } from './schemas/hotel-room.schema';
 import { HotelModule } from '../hotel/hotel.module';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
   imports: [
       HotelModule,
+      MulterModule.register({
+        dest: '../img'
+      }),
       MongooseModule.forFeature([{ name: HotelRoom.name, schema: HotelRoomSchema }]), 
     ],
   providers: [HotelRoomService],
-  controllers: [HotelRoomController]
+  controllers: [HotelRoomController],
+  exports:[MongooseModule]
 })
 export class HotelRoomModule {}

@@ -10,7 +10,6 @@ export class ClientController {
 
 @Post('register')
 async create(@Body() dto: RegisterDto, @Res() res: Response)  {
-    console.log('Нахожусь в client controller');
    return await this.clientService.create(dto, res);
 }
 
