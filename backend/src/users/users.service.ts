@@ -1,20 +1,27 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User, UserDocument } from './schemas/user.schema';
 import * as bcrypt from 'bcrypt';
 import { CreateUserDto } from './dto/create-user.dto';
+import { SearchUserParams } from '../users/interfaces/searchUserParams.interface'
+import { query } from 'express';
 
 @Injectable()
 export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
   async create(data: CreateUserDto): Promise<User> {
-    let { password, ...otherData } = data;
+    const { email, password, ...otherData } = data;
+    const existingUser = await this.userModel.findOne({ email }); // Проверка на уникальность email
+    if (existingUser) {
+      throw new BadRequestException('Email уже занят');
+    }
     const passwordHash = await bcrypt.hash(password, 10);
-    const newUser = new this.userModel({ ...otherData, passwordHash });
+    const newUser = new this.userModel({ ...otherData, email, passwordHash });
     return newUser.save();
   }
+
 
   async findById(id: string): Promise<User | null> {
     return this.userModel.findById(id);
@@ -24,15 +31,27 @@ export class UsersService {
     return this.userModel.findOne({ email }).exec();
   }
 
-  async findAll(): Promise<any> {
-    const users = this.userModel.find().exec();
-    const usersFiltred = (await users).map(user => ({
+  async findAll(query: SearchUserParams): Promise<any> {
+    const { limit, offset, email, name, contactPhone }: any = query;
+
+    const filters: any = {}
+    if(email) filters.email = { $regex: email, $options: 'i' }
+    if(name) filters.name = { $regex: name, $options: 'i' }
+    if(contactPhone) filters.contactPhone = { $regex: contactPhone, $options: 'i' }
+
+    const users = this.userModel
+    .find(filters)
+    .skip(offset || 0)
+    .limit(limit || 10)
+    .exec()
+
+    return (await users).map(user => ({
       id: user._id,
       email: user.email,
       name: user.name,
       contactPhone: user.contactPhone,
     }));
-    return usersFiltred
+
   }
 
   async checkUser(email: string, password: string): Promise<any> {

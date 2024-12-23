@@ -14,7 +14,7 @@ export class AdminStrategy extends PassportStrategy(Strategy, 'admin') {
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([
-        (req) => req.cookies['access_token'],
+        (req) => req?.cookies?.['access_token'],
       ]),
       ignoreExpiration: false,
       secretOrKey: configService.get<string>('JWT_SECRET'),

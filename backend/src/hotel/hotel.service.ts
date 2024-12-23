@@ -4,6 +4,8 @@ import { Model } from 'mongoose';
 import { Hotel, HotelDocument } from '../hotel/schemas/hotel.schema'
 import { CreateHotelDto } from './dto/create-hotel.dto';
 import { UpdateHotelParams } from '../hotel/dto/update-hotel.dto';
+import { SearchHotelParams } from './interfaces/SearchHotel.interface';
+
 
 @Injectable()
 export class HotelService {
@@ -27,15 +29,24 @@ export class HotelService {
         }
     }
 
-    async findAll(): Promise<Hotel[]> {
+    async findAll(query: SearchHotelParams): Promise<Hotel[]> {
         try {
-            const hotels =  this.hotelModel.find().exec();
-            const hotelsFiltred = (await hotels).map(hotel => ({
-                    id: hotel._id,
-                    title: hotel.title,
-                    description: hotel.description
+            const { limit, offset, title } = query;
+
+            const filters: any = {}
+            if (title) filters.title = { $regex: title, $options: 'i' }
+
+            const hotels = this.hotelModel
+                .find(filters)
+                .skip(offset)
+                .limit(limit)
+
+            return (await hotels).map(hotel => ({
+                id: hotel._id,
+                title: hotel.title,
+                description: hotel.description
             }));
-            return hotelsFiltred
+
         } catch (error: any) {
             console.error('Ошибка при получении списка отелей:', error);
             throw new Error('Ошибка при получении списка отелей');
@@ -55,20 +66,20 @@ export class HotelService {
         try {
             // Используем await, чтобы получить обновленный отель
             const updateHotel = await this.hotelModel.findByIdAndUpdate(id, data, { new: true }).exec();
-            
+
             // Проверяем, был ли найден отель
             if (!updateHotel) {
                 console.error(`Отель с id ${id} не найден`);
                 return null;
             }
-    
+
             // Создаем отфильтрованный объект с необходимыми полями
             const updateHotelFiltred = {
                 id: updateHotel._id,
                 title: updateHotel.title,
                 description: updateHotel.description,
             };
-    
+
             return updateHotelFiltred;
         } catch (error: any) {
             console.error(`Ошибка при обновлении отеля с id ${id}:`, error);

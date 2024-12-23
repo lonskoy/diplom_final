@@ -5,6 +5,7 @@ import { BadRequestException, Injectable, InternalServerErrorException, NotFound
 import { Model } from 'mongoose';
 import { CreateHoteRoomlDto } from './dto/create-hotel-room.dto';
 import { UpdateHoteRoomlDto } from './dto/update-hotel-room.dto';
+import { SearchRoomsParams } from './interfaces/SearchRoomsParams.interface';
 
 @Injectable()
 export class HotelRoomService {
@@ -56,9 +57,33 @@ export class HotelRoomService {
         // };
     }
 
-    async findAll() {
+    async findAll(query: SearchRoomsParams): Promise<any> {
         try {
-            return await this.hotelRoomModel.find();
+            const { hotel, isEnabled, offset, limit } = query;
+
+            // Формирование фильтров
+            const filters: any = {};
+            if (hotel) filters.hotel = hotel; // Фильтр по hotel
+            if (typeof isEnabled === 'boolean') filters.isEnabled = isEnabled; // Фильтр по isEnabled
+
+            // Поиск записей с учетом фильтров, пагинации
+            const hotelRooms = await this.hotelRoomModel
+                .find(filters)
+                .skip(offset || 0)
+                .limit(limit || 10)
+                .exec();
+
+            // Преобразование результата
+            return hotelRooms.map(room => ({
+                id: room.id,
+                description: room.description,
+                images: room.images,
+                hotel: {
+                    id: room.hotel.id,
+                    title: room.hotel.title,
+                },
+            }));
+
         } catch (error) {
             console.error('Ошибка при поиске всех номеров:', error);
             throw new InternalServerErrorException('Не удалось получить список номеров');
@@ -69,9 +94,20 @@ export class HotelRoomService {
         try {
             const room = await this.hotelRoomModel.findById(id);
             if (!room) {
-                throw new NotFoundException(`Комната с ID ${id} не найдена`);
+                throw new NotFoundException(`Комната с id: ${id} не найдена`)
             }
-            return room;
+            else {
+                return {
+                    id: room._id,
+                    description: room.description,
+                    images: room.images,
+                    hotel: {
+                        title: room.hotel.title,
+                        description: room.hotel.description
+                    }
+
+                }
+            }
         } catch (error) {
             console.log('Ошибка при поиски номера по id', error)
         }
@@ -88,7 +124,7 @@ export class HotelRoomService {
                 throw new NotFoundException(`Комната с id: ${id} не найдена`)
             }
             const existingImages = room.images || [];
-  
+
             const newImages = files.map(file => `img/${file.filename}`);
             console.log(`Переданные новые картинки ${newImages}`);
 

@@ -32,8 +32,5 @@ export class ClientService {
     );
     response.send(); // отправка
     return response.end(); // завершение сессии 
-
-
-
   }
 }

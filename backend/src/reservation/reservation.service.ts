@@ -28,7 +28,7 @@ export class ReservationService {
         }
 
         const dataReservation = {
-            userId: userId.toString,
+            userId: userId,
             hotelId: room.hotel.id,
             roomId: room.id,
             dateStart: data.dateStart,
@@ -53,7 +53,7 @@ export class ReservationService {
         
     }
  
-    async allReservationClient(access_token: string) {
+    async allReservationsClient(access_token: string) {
         let userId;
         try {
             const decoded = this.jwtService.verify(access_token); // Расшифровка JWT токена
@@ -63,6 +63,12 @@ export class ReservationService {
         }
         const allReservation = await this.reservationModel.find();
         console.log(allReservation);
+        const allReservationClient = allReservation.filter(item => item.userId.toString() === userId )
+        return allReservationClient;
+    }
+
+    async allReservationsManager(userId: string) {
+        const allReservation = await this.reservationModel.find();
         const allReservationClient = allReservation.filter(item => item.userId.toString() === userId )
         return allReservationClient;
     }
@@ -81,9 +87,9 @@ export class ReservationService {
         if(!reservation) {
             throw new NotFoundException(`Резервирование id: ${idReservation} не найдено`);
         }
-        console.log(`БРОНИРОВАНИЕ: ${reservation}`)
+        console.log(`RESERV UserId: ${reservation.userId}, UserID: ${userId} `)
         
-        if(reservation.userId === userId){
+        if(reservation.userId === userId) {
             await this.reservationModel.findByIdAndDelete(idReservation)
             console.log(`Бронирование id: ${idReservation} было удалено`)
         }
@@ -91,5 +97,15 @@ export class ReservationService {
             throw new NotFoundException(`Резервирование id: ${idReservation} не пренадлежит пользователю id: ${userId}`);
         }
     }
+
+    async removeReservationManager(idReservation: string) {
+
+        const reservation = await this.reservationModel.findById(idReservation)
+        if(!reservation) {
+            throw new NotFoundException(`Резервирование id: ${idReservation} не найдено`);
+        }
+            await this.reservationModel.findByIdAndDelete(idReservation)
+            console.log(`Бронирование id: ${idReservation} было удалено`)
+        }
 
 }

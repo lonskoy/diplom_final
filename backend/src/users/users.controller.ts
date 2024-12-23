@@ -1,8 +1,10 @@
-import { Controller, Get, Post, Body, Param, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, UseGuards, Query } from '@nestjs/common';
 import { User } from './schemas/user.schema';
 import { UsersService } from './users.service';
 import { AuthGuard } from '@nestjs/passport';
 import { CreateUserDto } from './dto/create-user.dto';
+import { query } from 'express';
+import { SearchUserParams } from './interfaces/searchUserParams.interface';
 
 
 @UseGuards(AuthGuard('admin'))
@@ -18,8 +20,8 @@ export class UsersController {
   }
 
   @Get('users')
-  async findAllUser(): Promise<User[]> {
-    return this.usersService.findAll();
+  async findAllUser(@Query() query: SearchUserParams): Promise<User[]> {
+    return this.usersService.findAll(query);
   }
 
   @Get('users/:id')

@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Get, Put, UploadedFiles, UseGuards, UseInterceptors, Param, NotFoundException, UploadedFile } from '@nestjs/common';
+import { Body, Controller, Post, Get, Put, UploadedFiles, UseGuards, UseInterceptors, Param, NotFoundException, UploadedFile, Query } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { HotelRoomService } from './hotel-room.service';
 import { CreateHoteRoomlDto } from './dto/create-hotel-room.dto';
@@ -8,6 +8,7 @@ import { diskStorage } from 'multer';
 import { v4 as uuidv4 } from 'uuid';
 import { extname } from 'path';
 import { UpdateHoteRoomlDto } from './dto/update-hotel-room.dto';
+import { SearchRoomsParams } from './interfaces/SearchRoomsParams.interface';
 
 @UseGuards(AuthGuard('admin'))
 @Controller('admin')
@@ -46,47 +47,17 @@ export class HotelRoomController {
     }
 
     @Get('hotel-rooms')
-    async findAllRooms() {
-        const allRooms = await this.hotelRoomService.findAll();
-
-        const roomsFiltred = allRooms.map(room => {
-            return {
-                id: room._id,
-                description: room.description,
-                images: room.images,
-                hotel: {
-                    title: room.hotel.title,
-                    description: room.hotel.description
-                }
-            }
-        });
-
-        return roomsFiltred;
+    async findAllRooms(@Query() query: SearchRoomsParams) {
+        return await this.hotelRoomService.findAll(query);
     }
 
     @Get('hotel-rooms/:id')
     async findByIdRooms(@Param('id') id: string) {
-        const room = await this.hotelRoomService.findById(id);
-        if(!room) {
-            throw new NotFoundException(`Комната с id: ${id} не найдена`)
-        }
-        else {
-            return {
-                id: room._id,
-                description: room.description,
-                images: room.images,
-                hotel: {
-                    title: room.hotel.title,
-                    description: room.hotel.description
-                }
-    
-            }
-        }
-        
+        return await this.hotelRoomService.findById(id);
     }
 
-   
-    @Put('hotel-rooms/:id') 
+
+    @Put('hotel-rooms/:id')
     @UseInterceptors(
         FilesInterceptor('images', 10, {
 
@@ -109,7 +80,7 @@ export class HotelRoomController {
         })
     )
     async updateRoomById(@Param('id') id: string, @Body() data: UpdateHoteRoomlDto, @UploadedFile() files: Express.Multer.File[]) {
-        return await this.hotelRoomService.updateById(id, data, files || [] ) // метод НЕ РАБОТАЕТ корректно, по чему то файлы на сервер добавляет, но в сервис передает undefined
+        return await this.hotelRoomService.updateById(id, data, files || []) // метод НЕ РАБОТАЕТ корректно, по чему то файлы на сервер добавляет, но в сервис передает undefined
     }
 
 }

@@ -1,9 +1,10 @@
-import { Controller, Get, Post, Put, Body, Param, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Put, Body, Param, UseGuards, Query } from '@nestjs/common';
 import { HotelService } from '../hotel/hotel.service';
 import { AuthGuard } from '@nestjs/passport';
 import { CreateHotelDto } from '../hotel/dto/create-hotel.dto';
 import { Hotel } from '../hotel/schemas/hotel.schema';
 import { UpdateHotelParams } from '../hotel/dto/update-hotel.dto'
+import { SearchHotelParams } from './interfaces/SearchHotel.interface';
 
 @UseGuards(AuthGuard('admin'))
 @Controller('admin')
@@ -16,8 +17,8 @@ export class HotelController {
     }
   
     @Get('hotels')
-    async findAllHotel(): Promise<Hotel[]> {
-      return this.hotelService.findAll();
+    async findAllHotel(@Query() query: SearchHotelParams): Promise<Hotel[]> {
+      return this.hotelService.findAll(query);
     }
   
     @Get('hotels/:id')

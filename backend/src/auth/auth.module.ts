@@ -4,12 +4,12 @@ import { AuthController } from './auth.controller';
 import { UsersModule } from '../users/users.module';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
-import { LocalStrategy } from './stretegy/local.strategy';
 import { AdminStrategy } from './stretegy/admin.strategy';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserSchema } from '../users/schemas/user.schema';
 import { ManagerStrategy } from './stretegy/manager.strategy';
 import { ClientStrategy } from './stretegy/client.strategy';
+import { LocalStrategy } from './stretegy/local.strategy';
 
 @Module({
   imports: [
@@ -21,7 +21,7 @@ import { ClientStrategy } from './stretegy/client.strategy';
       signOptions: { expiresIn: '1h' },
     }),
   ],
-  providers: [AuthService, LocalStrategy, AdminStrategy, ManagerStrategy, ClientStrategy], // Указываем JwtService в провайдерах
+  providers: [AuthService, AdminStrategy, ManagerStrategy, ClientStrategy, LocalStrategy], // Указываем JwtService в провайдерах
   controllers: [AuthController],
 })
 export class AuthModule {}
