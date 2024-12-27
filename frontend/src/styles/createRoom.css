@@ -1,0 +1,43 @@
+.createRoomContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin-left: 400px;
+}
+
+/* Стили для формы */
+.createRoomForm {
+    width: 400px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+}
+
+/* Заголовок */
+.createRoomForm h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Кнопка Создать */
+.createRoomForm button {
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* Размеры и стили для поля ввода и textarea */
+.createRoomForm .form-control {
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 4px;
+}
+
+/* Сообщения об успехе или ошибке */
+.createRoomForm .alert {
+    margin-top: 10px;
+    font-weight: bold;
+}

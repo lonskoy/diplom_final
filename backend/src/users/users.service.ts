@@ -5,7 +5,7 @@ import { User, UserDocument } from './schemas/user.schema';
 import * as bcrypt from 'bcrypt';
 import { CreateUserDto } from './dto/create-user.dto';
 import { SearchUserParams } from '../users/interfaces/searchUserParams.interface'
-import { query } from 'express';
+import { query, response } from 'express';
 
 @Injectable()
 export class UsersService {

@@ -1,0 +1,14 @@
+body {
+    margin: 0;
+    padding: 0;
+  }
+  
+
+.sideBarContainer {
+    top: 10px;
+}
+
+.baseList, .clientList, .adminList, .managerList {
+    list-style-type: none;
+} 
+

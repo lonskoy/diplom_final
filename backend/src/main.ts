@@ -6,6 +6,12 @@ import cookieParser from 'cookie-parser'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.enableCors({
+    origin: 'http://localhost:5173', // Указывайте свой домен, с которого разрешен доступ
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Разрешенные методы
+    allowedHeaders: ['Content-Type', 'Authorization'], // Разрешенные заголовки
+    credentials: true // Разрешите куки
+  });
   app.setGlobalPrefix('api') // глобальный префикс для всех модулей
   app.useGlobalPipes(new ValidationPipe({ whitelist: true })); // для валидации полей с помощью dto 
   app.use(cookieParser()); // добавляет возможность читать куки
@@ -16,4 +22,5 @@ async function bootstrap() {
   await app.listen(Number(port));
   console.log('Сервер запущен на порту:', port);
 }
+
 bootstrap();

@@ -20,7 +20,7 @@ export class HotelRoomController {
         FilesInterceptor('images', 10, {
 
             storage: diskStorage({
-                destination: '../img',
+                destination: '../frontend/public/img',
                 filename: (req, file, cb) => {
                     const uniqueSuffix = `${uuidv4()}${extname(file.originalname)}`;
                     cb(null, uniqueSuffix);

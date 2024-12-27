@@ -1,0 +1,56 @@
+.roomCardContainer {
+    display: flex;
+    gap: 20px; /* Расстояние между изображением и описанием */
+    justify-content: space-between; /* Центрирование содержимого по горизонтали */
+    width: 80%; /* Контейнер не будет занимать всю ширину экрана */
+    max-width: 1000px; /* Ограничиваем максимальную ширину */
+    min-width: 450px;
+    background-color: #f4f4f4; /* Цвет фона, для выделения карточки */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Легкая тень для карточки */
+    margin-bottom: 20px;
+  }
+  
+  /* Стили для блока с изображением */
+  .roomCard_image {
+    width: 150px;
+    height: 150px;
+    background-color: #d3d3d3; /* Серый фон на случай, если изображение отсутствует */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .roomCard_image img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover; /* Чтобы изображение заполняло блок */
+  }
+  
+  /* Стили для блока с описанием */
+  .roomCard_description {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    max-width: 400px; /* Ширина до 400px */
+  }
+  
+  /* Стили для кнопки "Подробнее" */
+  .roomCard_description_button {
+    width: 120px; /* Ширина кнопки */
+    margin: 0 auto; /* Центрирование кнопки */
+    padding: 10px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+  }
+  
+  .roomCard_description_button:hover {
+    background-color: #0056b3; /* Изменение цвета при наведении */
+  }

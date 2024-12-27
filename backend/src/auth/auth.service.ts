@@ -26,15 +26,17 @@ export class AuthService {
     const access_token = this.jwtService.sign(payload);
     console.log('Предоставлен токен:', access_token);
 
-    response.setHeader(                                            //устнавливаем заголовок cookie
+    response.setHeader(                                            //устнавливаем токен в заголовок cookie
       'Set-Cookie',
       cookie.serialize('access_token', String(access_token), {
-        maxAge: 3600,
-        domain: 'localhost',
-        path: '/',
-      }),
+        maxAge: 3600, // 1 час
+        httpOnly: true, // Чтобы куки не были доступны через JavaScript
+        secure: process.env.NODE_ENV === 'production', // Только HTTPS в продакшене
+        sameSite: 'strict', // Защита от CSRF
+        path: '/', // Для всех путей
+    }),
     );
-    response.send({ message: 'Вы авторизовались в системе'}); // отправка
+    response.send({ role: user.role, name: user.name }); // отправка
     return response.end(); // завершение сессии 
   }
 
@@ -47,6 +49,7 @@ export class AuthService {
         path: '/',
       }),
     );
+    console.log('Пользователь вышел из системы')
     response.send({ message: 'Вы успешно вышли из системы' });
   }
 }

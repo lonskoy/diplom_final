@@ -37,24 +37,6 @@ export class HotelRoomService {
 
         // Сохраняем номер
         return await newRoom.save();
-
-        // // Популяция отеля
-        // const populatedRoom = hotelFind.populate({
-        //     path: 'hotel', // Указываем путь для популяции
-        //     select: 'title description' // Указываем поля для популяции (title, description)
-        // })  
-
-        // return {
-        //     id: populatedRoom.id.toString(),
-        //     description: populatedRoom.description,
-        //     images: populatedRoom.images,
-        //     isEnabled: populatedRoom.isEnabled,
-        //     hotel: {
-        //         id: populatedRoom._id.toString(),
-        //         title: populatedRoom.title, // Получаем title отеля
-        //         description: populatedRoom.description, // Получаем description отеля
-        //     },
-        // };
     }
 
     async findAll(query: SearchRoomsParams): Promise<any> {

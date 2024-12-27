@@ -9,9 +9,7 @@ import { MulterModule } from '@nestjs/platform-express';
 @Module({
   imports: [
       HotelModule,
-      MulterModule.register({
-        dest: '../img'
-      }),
+      MulterModule.register(),
       MongooseModule.forFeature([{ name: HotelRoom.name, schema: HotelRoomSchema }]), 
     ],
   providers: [HotelRoomService],

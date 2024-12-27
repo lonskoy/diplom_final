@@ -18,4 +18,5 @@ export class AuthController {
   async logout(@Res() response: Response) {
     return this.authService.logout(response);
   }
+
 }
