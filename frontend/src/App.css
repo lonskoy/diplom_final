@@ -1,24 +1,10 @@
 body {
-    margin: 0;
-    padding: 0;
-  }
+  display: flex;
+  justify-content: center;
+}
 
 .appContainer {
   display: flex;
-  align-items: center; /* Центрируем содержимое по вертикали */
-  top: 20px; /* Располагаем вверху */
-  left: 0; /* Располагаем слева */
-  right: 0; /* Располагаем справа */
-  width: 100%; /* Занимаем всю ширину */
-  height: 100px; /* Устанавливаем высоту 100px */
-  background-color: #fff; /* Можно установить цвет фона */
-  z-index: 10; /* Чтобы заголовок был поверх всего */
-  padding: 0 20px; /* Отступы по бокам */
-  box-sizing: border-box; /* Чтобы padding не увеличивал ширину */
-}
+  flex-direction: column;
 
-.bodyContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }

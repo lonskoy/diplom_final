@@ -1,6 +1,6 @@
 import { InjectModel } from '@nestjs/mongoose';
 import { HotelRoom, HotelRoomDocument } from './schemas/hotel-room.schema';
-import { Hotel, HotelDocument } from '../hotel/schemas/hotel.schema'
+import { Hotel, HotelDoc } from '../hotel/schemas/hotel.schema'
 import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException, Param, UploadedFile } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { CreateHoteRoomlDto } from './dto/create-hotel-room.dto';
@@ -11,7 +11,7 @@ import { SearchRoomsParams } from './interfaces/SearchRoomsParams.interface';
 export class HotelRoomService {
     constructor(
         @InjectModel(HotelRoom.name) private hotelRoomModel: Model<HotelRoomDocument>,
-        @InjectModel(Hotel.name) private hotelModel: Model<HotelDocument>
+        @InjectModel(Hotel.name) private hotelModel: Model<HotelDoc>
     ) { }
 
     async create(data: CreateHoteRoomlDto): Promise<any> {
@@ -20,19 +20,12 @@ export class HotelRoomService {
             throw new Error('Отель не найден');
         }
 
-        const hotelData = {
-            id: hotelFind.id,
-            title: hotelFind.title,
-            description: hotelFind.description
-        }
-
-
         // Создаем новый номер
         const newRoom = new this.hotelRoomModel({
             description: data.description,
             images: data.images || [], // Пустой массив по умолчанию
             isEnabled: data.isEnabled ?? true, // Используем isEnable из DTO
-            hotel: hotelData, // Используем ID отеля
+            hotel: hotelFind._id, // Используем ID отеля
         });
 
         // Сохраняем номер
@@ -61,7 +54,7 @@ export class HotelRoomService {
                 description: room.description,
                 images: room.images,
                 hotel: {
-                    id: room.hotel.id,
+                    id: room.hotel._id,
                     title: room.hotel.title,
                 },
             }));
@@ -74,25 +67,11 @@ export class HotelRoomService {
 
     async findById(id: string) {
         try {
-            const room = await this.hotelRoomModel.findById(id);
-            if (!room) {
-                throw new NotFoundException(`Комната с id: ${id} не найдена`)
-            }
-            else {
-                return {
-                    id: room._id,
-                    description: room.description,
-                    images: room.images,
-                    hotel: {
-                        title: room.hotel.title,
-                        description: room.hotel.description
-                    }
-
-                }
-            }
+            return this.hotelRoomModel.findById(id).populate('hotel') // в свойство метода populate вбиваем название ключа.
         } catch (error) {
             console.log('Ошибка при поиски номера по id', error)
         }
+
     }
 
     async updateById(

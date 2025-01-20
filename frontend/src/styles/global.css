@@ -1,0 +1,16 @@
+
+html body {
+    font-family: 'Roboto', sans-serif;
+  }
+
+  html body a {
+    text-decoration: none; /* Убирает подчеркивание */
+    color: #333333; /* Базовый цвет ссылки */
+    cursor: pointer; /* Курсор в виде руки */
+  }
+  
+  /* Изменение цвета при наведении */
+  html body a:hover {
+    color: #0056b3; /* Цвет при наведении */
+    text-decoration: none; /* Опционально, подчеркивание при наведении */
+  }

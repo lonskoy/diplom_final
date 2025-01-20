@@ -8,6 +8,8 @@ import { AuthModule } from './auth/auth.module';
 import { HotelModule } from './hotel/hotel.module';
 import { HotelRoomModule } from './hotel-room/hotel-room.module';
 import { ReservationModule } from './reservation/reservation.module';
+import { ChatModule } from './chat/chat.module';
+import { EnviromentModule } from './core/enviroment/enviroment.module';
 
 @Module({
   imports: [
@@ -21,7 +23,8 @@ import { ReservationModule } from './reservation/reservation.module';
       envFilePath: '../.env'
     }),
     ReservationModule,
-    
+    ChatModule,
+    EnviromentModule
   ],
 })
 

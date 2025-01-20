@@ -12,14 +12,14 @@ export const Sidebar: FC = () => {
     return (
         <div className='sideBarContainer'>
             <ol className='baseList'>
-                <a href=''><li className='baseListItem'>Найти гостиницу</li></a>
-                <Link to='/'><li className='baseListItem'>Найти номер</li></Link>
+                <Link to='/'><li className='baseListItem'>Бронировать гостиницу</li></Link>
+                {/* <Link to='/'><li className='baseListItem'>Найти номер</li></Link> */}
             </ol>
 
             {client && (
                 <ol className='clientList'>
-                    <a href=''><li className='baseListItem'>Мои бронирования</li></a>
-                    <a href=''><li className='baseListItem'>Техподдержка</li></a>
+                    <Link to='/api/client/reservations'><li className='baseListItem'>Мои бронирования</li></Link>
+                    <a href='#'><li className='baseListItem'>Техподдержка</li></a>
                 </ol>
             )}
 
@@ -27,15 +27,15 @@ export const Sidebar: FC = () => {
                 <ol className='adminList'>
                     <Link to='/create/hotel'><li className='baseListItem'>Добавить гостиницу</li></Link>
                     <Link to='/create/room'><li className='baseListItem'>Добавить номер</li></Link>
-                    <a href=''><li className='baseListItem'>Редактировать гостиницу</li></a>
-                    <a href=''><li className='baseListItem'>Редактировать номер</li></a>
+                    <a href='#'><li className='baseListItem'>Редактировать гостиницу</li></a>
+                    <a href='#'><li className='baseListItem'>Редактировать номер</li></a>
                 </ol>
             )}
 
             {manager && (
                 <ol className='managerList'>
-                    <a href=''><li className='baseListItem'>Все пользователи</li></a>
-                    <a href=''><li className='baseListItem'>Удалить бронирование</li></a>
+                    <a href='#'><li className='baseListItem'>Все пользователи</li></a>
+                    <a href='#'><li className='baseListItem'>Удалить бронирование</li></a>
                 </ol>
             )}
         </div>

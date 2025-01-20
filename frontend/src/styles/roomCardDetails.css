@@ -1,0 +1,20 @@
+.roomCardContainerDetails {
+    display: flex;
+    flex-direction: column;
+}
+
+.fotoGalary {
+    display: grid;
+    grid-template-columns: repeat(5, 20%);
+    margin-bottom: 25px;
+
+}
+
+.foto img {
+    display: flex;
+    height: auto;
+    width: 200px;
+    padding: 10px;
+  }
+  
+  

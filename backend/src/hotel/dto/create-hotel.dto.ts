@@ -8,4 +8,7 @@ export class CreateHotelDto {
   @IsString()
   @IsNotEmpty()
   description: string;
+
+  @IsString()
+  text: string;
 }

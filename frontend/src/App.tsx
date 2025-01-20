@@ -1,4 +1,5 @@
 import './App.css'
+import { Footer } from './components/footer';
 import { Header } from './components/header'
 import { Main } from './components/main';
 import { Sidebar } from './components/sidebar'
@@ -10,11 +11,9 @@ function App() {
     <Router>
       <div className='appContainer'>
         <Header />
-        <div className='bodyContainer'>
-          <Sidebar />
-          <Main />
-        </div>
-
+        <Sidebar />
+        <Main />
+        <Footer />
       </div>
     </Router>
   )

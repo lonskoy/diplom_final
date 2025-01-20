@@ -8,4 +8,7 @@ export class UpdateHotelParams {
     @IsString()
     @IsNotEmpty()
     description: string;
+
+    @IsString()
+    text: string;
 }

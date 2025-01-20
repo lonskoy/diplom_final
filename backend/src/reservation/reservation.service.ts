@@ -15,7 +15,7 @@ export class ReservationService {
     ) {} 
 
     async create(data: ReservationDto, access_token: string) {
-        const room = await this.hotelRoomModel.findById(data.hotelRoom);
+        const room = await this.hotelRoomModel.findById(data.hotelRoom).populate('hotel'); // везде где обращаемся к связанным коллекциям нужно указывать populate('назввние ключа из схема')
         if(!room) {
             throw new NotFoundException(`Комната с id: ${data.hotelRoom} не найдена`)
         }
@@ -36,7 +36,7 @@ export class ReservationService {
 
         }
 
-        const newReservation = (await this.reservationModel.create(dataReservation)).save
+        const newReservation = (await this.reservationModel.create(dataReservation)).save();
 
         return {
             startDate: dataReservation.dateStart,
@@ -78,7 +78,7 @@ export class ReservationService {
         try {
             const decoded = this.jwtService.verify(access_token); // Расшифровка JWT токена
             userId = decoded.id
-            console.log(`УДАЛЕНИЕ БРОНИРОВАНИЯ id клиента: ${userId}`)
+            console.log(`УДАЛЕНИЕ БРОНИРОВАНИЯ id клиента: ${userId}, id БПРОНИРОВАНИЯ: ${idReservation}`)
         } catch (error) {
             throw new NotFoundException('Invalid token');
         }
@@ -89,7 +89,7 @@ export class ReservationService {
         }
         console.log(`RESERV UserId: ${reservation.userId}, UserID: ${userId} `)
         
-        if(reservation.userId === userId) {
+        if(reservation.userId.toString() === userId.toString()) {
             await this.reservationModel.findByIdAndDelete(idReservation)
             console.log(`Бронирование id: ${idReservation} было удалено`)
         }

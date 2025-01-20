@@ -1,11 +1,10 @@
 .roomsContainer {
-    padding-top: 150px; /* Отступ для первого элемента */
-    margin-left: 400px;
     display: flex;
-    flex-direction: column; /* Элементы размещаются вертикально */
-    align-items: center; /* Выравнивание по центру */
-    width: 100%;
-    gap: 30px; /* Расстояние между элементами */
-    max-height: 100vh; /* Ограничиваем высоту контейнера, чтобы он не выходил за экран */
-    
+    flex-direction: column; /* Элементы размещаются вертикально */ 
+    width: 60vw;
+  }
+
+  .pagination-container {
+    margin: 10px 0 10px 0;
+    gap:5px;
   }

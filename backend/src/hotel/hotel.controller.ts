@@ -12,22 +12,22 @@ export class HotelController {
     constructor(private readonly hotelService: HotelService) {}
 
     @Post('hotels')
-    async createHotel(@Body() dto: CreateHotelDto): Promise<Hotel | null> {
+    async createHotel(@Body() dto: CreateHotelDto) {
       return this.hotelService.create(dto);
     }
   
     @Get('hotels')
-    async findAllHotel(@Query() query: SearchHotelParams): Promise<Hotel[]> {
+    async findAllHotel(@Query() query: SearchHotelParams) {
       return this.hotelService.findAll(query);
     }
   
     @Get('hotels/:id')
-    async findByIdHotel(@Param('id') id: string): Promise<Hotel | null> {
+    async findByIdHotel(@Param('id') id: string) {
       return this.hotelService.findById(id);
     }
   
     @Put('hotels/:id')
-    async updateHotel(@Param('id') id: string, @Body() data: UpdateHotelParams): Promise<Hotel | null> {
+    async updateHotel(@Param('id') id: string, @Body() data: UpdateHotelParams) {
         return this.hotelService.update(id, data)
     }
 

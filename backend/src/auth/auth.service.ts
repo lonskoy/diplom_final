@@ -22,7 +22,7 @@ export class AuthService {
   }
 
   async login(user: any, response: Response) {
-    const payload = { id: user._id };
+    const payload = { id: user._id, role: user.role, name: user.name };
     const access_token = this.jwtService.sign(payload);
     console.log('Предоставлен токен:', access_token);
 
@@ -36,7 +36,7 @@ export class AuthService {
         path: '/', // Для всех путей
     }),
     );
-    response.send({ role: user.role, name: user.name }); // отправка
+    response.send({ role: user.role, name: user.name, token: access_token }); // отправка
     return response.end(); // завершение сессии 
   }
 

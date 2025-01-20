@@ -1,0 +1,20 @@
+.reservCardContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border: 1px grey dotted;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 25px;;
+}
+
+.date_box {
+    display: flex;
+    gap: 20px;
+}
+
+.reservEmpty { /*---Находится в файле clientReservation--*/
+    display: flex;
+    margin: 25px;
+    font-size: x-large;
+}

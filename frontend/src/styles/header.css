@@ -1,31 +1,174 @@
-body {
-  margin: 0;
-  padding: 0;
-}
+
+/*--------------------------------Хедер-----------------------------*/
 
 .header {
+  display:grid;
+  height: 650px;
+  grid-template-rows: 10% 80% 10%;
+  margin-top: 25px;
+}
+
+
+.header_up {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+
+.header_up_link {  /*----------Хедер-> Блок ссылок-----------*/
+  display: flex; 
+  justify-content: flex-start;
+  margin-right: 25px;
+}
+
+.header_link_list {
   display: flex;
-  justify-content: space-between; /* Элементы на максимальном расстоянии */
-  align-items: center; /* Центрируем содержимое по вертикали */
-  position: fixed; /* Закрепляем элемент вверху экрана */
-  top: 20px; /* Располагаем вверху */
-  left: 0; /* Располагаем слева */
-  right: 0; /* Располагаем справа */
-  width: 100%; /* Занимаем всю ширину */
-  height: 100px; /* Устанавливаем высоту 100px */
-  background-color: #fff; /* Можно установить цвет фона */
-  z-index: 10; /* Чтобы заголовок был поверх всего */
-  padding: 0 20px; /* Отступы по бокам */
-  box-sizing: border-box; /* Чтобы padding не увеличивал ширину */
+  justify-content: center;
+  gap: 15px;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.header_list_elem {
+  
+}
+
+.header_up_auth {  /*----------Хедер-> Блок авторизации-----------*/
+  display: flex;
+  justify-content: end;
 }
 
 .formContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  gap: 10px;
 }
 
-.inputField {
-    margin-right: 10px;
-    border-radius: 5px;
+.loginForm {
+  display: flex;
+  gap: 10px;
+}
+
+input {
+  height: 35px;
+  max-width: 200px;
+  border: 1px grey dotted;
+  border-radius: 5px;
+}
+
+.header_up_auth {
+  display: flex;
+}
+
+.button_login {
+  display: flex;             /* Включаем flexbox */
+  justify-content: center;   /* Центрируем по горизонтали */  
+  align-items: center;       /* Центрируем по вертикали */
+  width: 100px;              /* Устанавливаем ширину кнопки */
+  height: 35px;              /* Устанавливаем высоту кнопки */
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.button_login:hover {
+  background-color: #1a7d1d;
+}
+
+.button_register {
+  display: flex;             /* Включаем flexbox */
+  justify-content: center;   /* Центрируем по горизонтали */
+  align-items: center;       /* Центрируем по вертикали */
+  width: 150px;              /* Устанавливаем ширину кнопки */
+  height: 35px;              /* Устанавливаем высоту кнопки */
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.button_register:hover {
+  background-color: #0056b3;
+}
+
+.authContainer {
+  display: flex;
+  gap: 25px;
+}
+
+
+/*--------------------------------Слайд-шоу-----------------------------*/
+
+.logo_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo {
+  height: auto;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+
+/*------------------------------Поиск-отелей по календарю-------------------------------*/
+
+.search_hotel_bar {
+  display: flex;
+  justify-content: center;
+}
+
+.search_hotel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 870px;
+  height: 60px;
+  border-radius: 8px;
+  padding: 10px 20px;
+  box-sizing: border-box;
+  gap: 10px; /* Расстояние между элементами */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Светло-серая тень */
+  position: relative; /* Позволяет использовать смещение относительно нормального потока */
+  top: -30px; /* Наполовину высоты search_hotel (50px / 2 = 25px) */
+  z-index: 10;
+}
+
+.search_input {
+  flex: 2; /* Текстовое поле занимает больше места */
+  height: 100%;
+  padding: 0 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.search_date {
+  flex: 1; /* Поля даты меньше */
+  height: 100%;
+  padding: 0 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.search_button {
+  flex: 1;
+  height: 100%;
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.search_button:hover {
+  background-color: #0056b3;
 }
