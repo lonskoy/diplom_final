@@ -57,7 +57,7 @@ export class HotelRoomController {
     }
 
 
-    @Put('hotel-rooms/:id')
+    @Put('hotel-rooms-edit/:id')
     @UseInterceptors(
         FilesInterceptor('images', 10, {
 
@@ -80,6 +80,7 @@ export class HotelRoomController {
         })
     )
     async updateRoomById(@Param('id') id: string, @Body() data: UpdateHoteRoomlDto, @UploadedFile() files: Express.Multer.File[]) {
+        console.log(data)
         return await this.hotelRoomService.updateById(id, data, files || []) // метод НЕ РАБОТАЕТ корректно, по чему то файлы на сервер добавляет, но в сервис передает undefined
     }
 

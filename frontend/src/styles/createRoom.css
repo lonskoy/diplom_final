@@ -1,14 +1,13 @@
 .createRoomContainer {
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin-left: 400px;
+    height: 45vh;
+    margin-bottom: 50px;
 }
 
 /* Стили для формы */
 .createRoomForm {
-    width: 400px;
+    width: 800px;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 8px;

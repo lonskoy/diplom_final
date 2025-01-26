@@ -49,7 +49,7 @@ export const CreateHotel: FC = () => {
                 onSubmit={handleSubmit}
                 className="createHotelForm"
             >
-                <h2 className="text-center">Создать Отель</h2>
+                <h2 className="text-center">Создать гостиницу</h2>
 
                 {/* Поле для названия отеля */}
                 <div className="mb-3">

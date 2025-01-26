@@ -27,8 +27,9 @@ export const Sidebar: FC = () => {
                 <ol className='adminList'>
                     <Link to='/create/hotel'><li className='baseListItem'>Добавить гостиницу</li></Link>
                     <Link to='/create/room'><li className='baseListItem'>Добавить номер</li></Link>
-                    <a href='#'><li className='baseListItem'>Редактировать гостиницу</li></a>
-                    <a href='#'><li className='baseListItem'>Редактировать номер</li></a>
+                    <Link to='api/admin/hotels-edit/:id'><li className='baseListItem'>Редактировать гостиницу</li></Link>
+                    <Link to='api/admin/hotel-rooms-edit/:id'><li className='baseListItem'>Редактировать номер</li></Link>
+                    <Link to='api/admin/users'><li className='baseListItem'>Пользователи</li></Link>
                 </ol>
             )}
 

@@ -1,0 +1,65 @@
+.searchContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 25px;
+    justify-content: center;
+    align-items: center;
+}
+
+.inputText {
+    min-width: 300px;
+}
+
+.roomForm {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 800px;
+    margin-bottom:  50px;
+}
+
+.formFile {
+    height: auto;
+    min-width: 800px;
+}
+
+.fotoGalary {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 5 колонок одинакового размера */
+    gap: 10px; /* Расстояние между элементами */
+    margin-bottom: 50px;
+}
+
+.image_container {
+    position: relative; /* Создаем контекст для позиционирования элемента */
+    width: 100%;
+    aspect-ratio: 1; /* Квадратный контейнер */
+    overflow: hidden; /* Обрезаем содержимое, если выходит за границы */
+}
+
+.image {
+    width: 180px; /* Изображение заполняет контейнер */
+    height: 100%;
+    object-fit: cover; /* Изображение обрезается, чтобы соответствовать контейнеру */
+}
+
+.imageRemove {
+    position: absolute;
+    top: 5px;
+    right: 20px;
+    background-color: white;
+    border: 2px solid red;
+    color: red;
+    font-weight: bold;
+    padding: 2px 5px;
+    cursor: pointer;
+    z-index: 10;
+    border-radius: 50%; /* Круглая кнопка */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+}

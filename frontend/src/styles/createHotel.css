@@ -1,14 +1,14 @@
 .createHotelContainer {
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin-left: 400px;
+    height: 40vh;
+    margin-bottom: 50px;
+
   }
   
   /* Стили для формы */
   .createHotelForm {
-    width: 400px;
+    width: 800px;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 8px;

@@ -1,7 +1,15 @@
 .registerForm {
     display: flex;
-    margin-left: 600px;
-    margin-top: auto;
     flex-direction: column;
-    max-width: 300px;
+    gap: 20px;
+    min-width: 430px;
+    margin-bottom: 50px;
 }
+
+.form-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+

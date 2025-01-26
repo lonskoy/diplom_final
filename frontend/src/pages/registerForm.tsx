@@ -16,7 +16,7 @@ export const RegisterForm: FC = () => {
         e.preventDefault();
 
         const body = { email, password, name, contactPhone };
-        let userName ='';
+        let userName = '';
 
         try {
             const response = await axios.post('http://localhost:3000/api/client/register', body);
@@ -28,45 +28,62 @@ export const RegisterForm: FC = () => {
             dispatch(setManager(false));
 
             // Сохраняем токен и авторизуем пользователя
-            dispatch(setAuth({userName}));
+            dispatch(setAuth({ userName }));
         } catch (error: any) {
             console.error("Ошибка регистрации:", error.message);
         }
     };
 
-    
+
 
     return (
         <div className="registerContainer">
             <form className="registerForm" onSubmit={handleSubmit}>
-                <input
-                    type="email"
-                    name="email"
-                    required
-                    placeholder="Почта"
-                    onChange={(e) => setEmail(e.target.value)}
-                />
-                <input
-                    type="password"
-                    name="password"
-                    required
-                    placeholder="Пароль"
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-                <input
-                    type="text"
-                    name="name"
-                    required
-                    placeholder="Имя"
-                    onChange={(e) => setName(e.target.value)}
-                />
-                <input
-                    type="text"
-                    name="contactPhone"
-                    required
-                    placeholder="Телефон"
-                    onChange={(e) => setContactPhone(e.target.value)}
-                />
+
+                <div className="form-group">
+                    <div className="label">Введите вашу почту</div>
+                    <input
+                        type="email"
+                        name="email"
+                        required
+                        placeholder="Почта"
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                </div>
+
+                <div className="form-group">
+                    <div className="label">Введите пароль</div>
+                    <input
+                        type="password"
+                        name="password"
+                        required
+                        placeholder="Пароль"
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                </div>
+
+                <div className="form-group">
+                    <div className="label">Введите ваше имя</div>
+                    <input
+                        type="text"
+                        name="name"
+                        required
+                        placeholder="Имя"
+                        onChange={(e) => setName(e.target.value)}
+                    />
+                </div>
+
+                <div className="form-group">
+                    <div className="label">Введите номер телефона</div>
+                    <input
+                        type="text"
+                        name="contactPhone"
+                        required
+                        placeholder="Телефон"
+                        onChange={(e) => setContactPhone(e.target.value)}
+                    />
+                </div>
+
                 <button type="submit">Регистрация</button>
             </form>
         </div>

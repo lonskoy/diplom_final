@@ -7,6 +7,9 @@ import { CreateRoom } from "../pages/createRoom.tsx";
 import { ClientReservations } from "../pages/clientReservation.tsx";
 import '../styles/main.css'
 import { RoomCardDetails } from "./roomCardDetails.tsx";
+import { EditRoom } from "../pages/editRoom.tsx";
+import { EditHotel } from "../pages/editHotel.tsx";
+import { UsersAdmin } from "../pages/usersAdmin.tsx";
 
 
 export const Main: FC = () => {
@@ -20,6 +23,9 @@ export const Main: FC = () => {
                 <Route path="/create/hotel" element={<CreateHotel />} />
                 <Route path="/create/room" element={<CreateRoom />} />
                 <Route path="/api/client/reservations" element={<ClientReservations />} />
+                <Route path="/api/admin/hotel-rooms-edit/:id" element={<EditRoom />} />
+                <Route path="/api/admin/hotels-edit/:id" element={<EditHotel />} />
+                <Route path="/api/admin/users" element={<UsersAdmin />} />
 
             </Routes>
         </div>

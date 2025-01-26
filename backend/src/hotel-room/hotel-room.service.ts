@@ -87,7 +87,7 @@ export class HotelRoomService {
             const existingImages = room.images || [];
 
             const newImages = files.map(file => `img/${file.filename}`);
-            console.log(`Переданные новые картинки ${newImages}`);
+            console.log(`Переданные новые картинки ${newImages}`); 
 
             const allImage = [...existingImages, ...newImages];
             const updateRoom = await this.hotelRoomModel.findByIdAndUpdate(

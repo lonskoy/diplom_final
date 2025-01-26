@@ -26,7 +26,7 @@ export class HotelController {
       return this.hotelService.findById(id);
     }
   
-    @Put('hotels/:id')
+    @Put('hotels-edit/:id')
     async updateHotel(@Param('id') id: string, @Body() data: UpdateHotelParams) {
         return this.hotelService.update(id, data)
     }

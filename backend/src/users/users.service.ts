@@ -54,6 +54,10 @@ export class UsersService {
 
   }
 
+  async removeUser(id: string) {
+    await this.userModel.findByIdAndDelete(id);
+  }
+
   async checkUser(email: string, password: string): Promise<any> {
     const user = await this.userModel.findOne({ email }).exec();
     if (!user) {

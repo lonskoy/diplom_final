@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, UseGuards, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, UseGuards, Query, Delete } from '@nestjs/common';
 import { User } from './schemas/user.schema';
 import { UsersService } from './users.service';
 import { AuthGuard } from '@nestjs/passport';
@@ -16,6 +16,7 @@ export class UsersController {
 
   @Post('users')
   async createUser(@Body() dto: CreateUserDto): Promise<User> { // используем dto для проверки передаваемых данных с бэкенда
+    console.log('Переданные данные при создании пользователя через admin:  ',dto);
     return this.usersService.create(dto);
   }
 
@@ -32,6 +33,11 @@ export class UsersController {
   @Get('users/email/:email')
   async findByEmailUser(@Param('email') email: string): Promise<User | null> {
     return this.usersService.findByEmail(email);
+  }
+
+  @Delete('users/:id')
+  async removeUser(@Param('id') id: string ) {
+    return this.usersService.removeUser(id);
   }
 
 }
