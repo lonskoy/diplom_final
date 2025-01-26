@@ -1,0 +1,24 @@
+.allUsersContainer {
+    padding: 20px;
+    margin-bottom: 25px;
+    width: 100%;
+  }
+  
+  .usersTable {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .usersTable th, .usersTable td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+  }
+  
+  .usersTable th {
+    background-color: #f4f4f4;
+  }
+  
+  .usersTable tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }

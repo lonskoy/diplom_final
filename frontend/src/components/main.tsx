@@ -11,6 +11,7 @@ import { EditRoom } from "../pages/editRoom.tsx";
 import { EditHotel } from "../pages/editHotel.tsx";
 import { UsersAdmin } from "../pages/usersAdmin.tsx";
 import { SupportRequests } from "../pages/supportRequests.tsx";
+import { AllUsersManager } from "../pages/allUsersManager.tsx";
 
 
 export const Main: FC = () => {
@@ -28,6 +29,7 @@ export const Main: FC = () => {
                 <Route path="/api/admin/hotels-edit/:id" element={<EditHotel />} />
                 <Route path="/api/admin/users" element={<UsersAdmin />} />
                 <Route path="/api/client/support-requests/" element={<SupportRequests />} />
+                <Route path="api/manager/users" element={<AllUsersManager />} />
 
             </Routes>
         </div>
