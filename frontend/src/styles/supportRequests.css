@@ -1,0 +1,96 @@
+/* ------------------------------------Общий контейнер */
+.supportRequestContainer {
+    display: grid;
+    grid-template-columns: 40% 60%;
+    height: auto;
+    width: 100%;
+    margin-bottom: 50px;
+    border: 1px grey dotted;
+}
+  
+/* ---------------------------------Левая часть */
+.requestsBox {
+    padding: 10px;
+    border-right: 1px solid #ccc;
+}
+  
+.requestsBox table {
+    width: 100%;
+    border-collapse: collapse;
+}
+  
+.requestsBox th,
+.requestsBox td {
+    text-align: left;
+    padding: 8px;
+    border-bottom: 1px solid #ccc;
+}
+  
+.requestsBox tr:hover {
+    background-color: #f1f1f1;
+    cursor: pointer;
+}
+  
+/* ------------------------------------------------Правая часть */
+.requestBody {
+    padding: 20px;
+}
+  
+.requestBody div {
+    margin-bottom: 10px;
+}
+  
+/* -----------------Сообщения */
+.messageBox {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    max-height: 500px; /* Ограничение высоты */
+    overflow-y: auto; /* Вертикальная прокрутка */
+    padding-right: 10px; /* Отступ справа для скролла */
+}
+  
+.message {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 8px;
+}
+  
+.message.client {
+    background-color: #d4edda; /* Светло-зеленый */
+    text-align: right;
+    max-width: 70%;
+}
+  
+.message.manager {
+    background-color: #f8f9fa; /* Светло-серый */
+    text-align: left;
+    max-width: 70%;
+}
+  
+/* -----------------Форма ответа */
+.messageForm {
+    margin-top: 20px;
+}
+  
+.messageForm textarea {
+    width: 100%;
+    height: 80px;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+  
+.messageForm button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+  
+.messageForm button:hover {
+    background-color: #0056b3;
+}

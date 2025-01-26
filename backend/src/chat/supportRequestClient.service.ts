@@ -4,6 +4,7 @@ import { CreateSupportRequestDto } from './dto/chat.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { SupportRequest, SupportRequestDoc}  from './schemas/support-request.schema'
 import { Model } from 'mongoose';
+import { title } from 'process';
 
 @Injectable()
 export class SupportRequestClientService {
@@ -18,6 +19,7 @@ export class SupportRequestClientService {
 
         const newSupportRequest = {
             user: id,
+            title: data.title,
             messages: [{
                 author: id,
                 role,

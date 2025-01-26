@@ -10,6 +10,7 @@ import { RoomCardDetails } from "./roomCardDetails.tsx";
 import { EditRoom } from "../pages/editRoom.tsx";
 import { EditHotel } from "../pages/editHotel.tsx";
 import { UsersAdmin } from "../pages/usersAdmin.tsx";
+import { SupportRequests } from "../pages/supportRequests.tsx";
 
 
 export const Main: FC = () => {
@@ -26,6 +27,7 @@ export const Main: FC = () => {
                 <Route path="/api/admin/hotel-rooms-edit/:id" element={<EditRoom />} />
                 <Route path="/api/admin/hotels-edit/:id" element={<EditHotel />} />
                 <Route path="/api/admin/users" element={<UsersAdmin />} />
+                <Route path="/api/client/support-requests/" element={<SupportRequests />} />
 
             </Routes>
         </div>

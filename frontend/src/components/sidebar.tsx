@@ -19,7 +19,7 @@ export const Sidebar: FC = () => {
             {client && (
                 <ol className='clientList'>
                     <Link to='/api/client/reservations'><li className='baseListItem'>Мои бронирования</li></Link>
-                    <a href='#'><li className='baseListItem'>Техподдержка</li></a>
+                    <Link to='/api/client/support-requests/'><li className='baseListItem'>Тех. поддержка</li></Link>
                 </ol>
             )}
 

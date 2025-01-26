@@ -8,6 +8,9 @@ export class SupportRequest extends Document {
   @Prop({ required: true })
   user: string; // ID пользователя
 
+  @Prop({ required: true })
+  title: string //Заголовок
+
   @Prop({
     type: [
       {
@@ -21,7 +24,7 @@ export class SupportRequest extends Document {
     ],
     default: [],
   })
-  messages: {
+  messages: {  //сообщение
     author: string;
     role: string;
     name: string;
