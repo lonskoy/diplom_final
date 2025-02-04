@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import { ReservationCard } from './reservationCard';
@@ -27,6 +27,7 @@ export const ClientReservations: FC = () => {
                 throw new Error('Ошибка при получении данных');
             }
             const data = await response.json();
+            console.log(data);
             setReservations(data);
         } catch (error) {
             console.error('Ошибка при загрузке резерваций:', error);
@@ -42,21 +43,22 @@ export const ClientReservations: FC = () => {
     }, []);
 
     return (
-        <div className="reservationsContainer">
-            {reservations.length === 0 ? ( // Проверяем, пуст ли массив
-                <div className="reservEmpty">У вас нет бронирований</div>
-            ) : (
-                reservations.map((reservation) => (
-                    <ReservationCard
-                        key={reservation._id}
-                        id={reservation._id}
-                        dateStart={new Date(reservation.dateStart)}
-                        dateEnd={new Date(reservation.dateEnd)}
-                        token={userToken}
-                        onRemove={handleRemove}
-                    />
-                ))
-            )}
+        <div className='reservationsBox'>
+            <div className="reservationsContainer">
+                {reservations.length === 0 ? ( // Проверяем, пуст ли массив
+                    <div className="reservEmpty">У вас нет бронирований</div>
+                ) : (
+                    reservations.map((reservation) => (
+                        <ReservationCard
+                            key={reservation._id}
+                            id={reservation._id}
+                            dateStart={new Date(reservation.dateStart)}
+                            dateEnd={new Date(reservation.dateEnd)}
+                            onRemove={handleRemove}
+                        />
+                    ))
+                )}
+            </div>
         </div>
     );
 };

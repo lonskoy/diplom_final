@@ -1,0 +1,59 @@
+.newSupportRequestBox {
+    display: flex;
+    justify-content: center;
+    height: auto; /* Центрирование по вертикали */
+    margin-bottom: 50px;
+}
+
+.inputTitle {
+    width: 200px; /* Фиксированная ширина */
+    min-width: 200px;
+    max-width: 200px;
+}
+.newSupportRequestForm {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 800px;
+}
+
+.newSupportRequestForm input,
+.newSupportRequestForm textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+}
+
+.newSupportRequestForm textarea {
+    height: 300px;
+    resize: none;
+}
+
+.newSupportRequestForm button {
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background-color: #28a745;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.newSupportRequestForm button:hover {
+    background-color: #218838;
+    transform: scale(1.05);
+}
+
+.newSupportRequestForm button:active {
+    background-color: #1e7e34;
+    transform: scale(0.98);
+}

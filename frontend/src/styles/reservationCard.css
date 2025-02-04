@@ -1,3 +1,10 @@
+.reservationsBox {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 25px;
+}
+
+
 .reservCardContainer {
     display: flex;
     flex-direction: column;
@@ -5,7 +12,8 @@
     border: 1px grey dotted;
     border-radius: 5px;
     padding: 20px;
-    margin-bottom: 25px;;
+    margin-bottom: 25px;
+
 }
 
 .date_box {

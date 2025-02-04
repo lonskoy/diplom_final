@@ -36,8 +36,8 @@ export const Sidebar: FC = () => {
             {manager && (
                 <ol className='managerList'>
                     <Link to='api/manager/users'><li className='baseListItem'>Все пользователи</li></Link>
-                    <a href='#'><li className='baseListItem'>Удалить бронирование</li></a>
-                    <a href='#'><li className='baseListItem'>Тех. поддержка</li></a>
+                    <Link to="api/manager/user-reservations"><li className='baseListItem'>Удалить бронирование</li></Link>
+                    <Link to="api/common/support-requests/manager"><li className='baseListItem'>Тех. поддержка</li></Link>
                 </ol>
             )}
         </div>

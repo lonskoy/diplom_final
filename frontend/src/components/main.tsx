@@ -12,6 +12,8 @@ import { EditHotel } from "../pages/editHotel.tsx";
 import { UsersAdmin } from "../pages/usersAdmin.tsx";
 import { SupportRequests } from "../pages/supportRequests.tsx";
 import { AllUsersManager } from "../pages/allUsersManager.tsx";
+import { CreateSupportRequest } from "../pages/createSupportRequest.tsx";
+import { DeleteReservationManager } from "../pages/deleteReservationManager.tsx";
 
 
 export const Main: FC = () => {
@@ -29,7 +31,11 @@ export const Main: FC = () => {
                 <Route path="/api/admin/hotels-edit/:id" element={<EditHotel />} />
                 <Route path="/api/admin/users" element={<UsersAdmin />} />
                 <Route path="/api/client/support-requests/" element={<SupportRequests />} />
+                <Route path="api/common/support-requests/manager" element={<SupportRequests />} />
+                <Route path="/api/client/create-support-request" element={<CreateSupportRequest />} />
                 <Route path="api/manager/users" element={<AllUsersManager />} />
+                <Route path="api/manager/user-reservations" element={<DeleteReservationManager />} />
+                
 
             </Routes>
         </div>

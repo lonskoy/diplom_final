@@ -1,4 +1,10 @@
 /* ------------------------------------Общий контейнер */
+.suportRequestBox {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 30px;
+}
 .supportRequestContainer {
     display: grid;
     grid-template-columns: 40% 60%;
@@ -6,6 +12,29 @@
     width: 100%;
     margin-bottom: 50px;
     border: 1px grey dotted;
+}
+
+.newRequest_button {
+    background-color: #28a745; /* Зеленый цвет */
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 20px; /* Закругленные края */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.newRequest_button:hover {
+    background-color: #218838; /* Чуть темнее при наведении */
+    transform: scale(1.05); /* Легкое увеличение */
+}
+
+.newRequest_button:active {
+    background-color: #1e7e34; /* Еще темнее при нажатии */
+    transform: scale(0.98); /* Небольшое уменьшение при клике */
 }
   
 /* ---------------------------------Левая часть */

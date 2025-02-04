@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../styles/supportRequests.css";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store";
+import jwtDecode from "jwt-decode";
 
 type Message = {
   author: string | undefined;
@@ -20,42 +24,62 @@ type Request = {
   updatedAt: string;
 };
 
+interface DecodedData {
+  id: string;
+  role: string;
+  name: string;
+}
+
 export const SupportRequests = () => {
   const [requests, setRequests] = useState<Request[]>([]);
   const [selectedRequest, setSelectedRequest] = useState<Request | null>(null);
   const [textMessage, setTextMessage] = useState("");
+  const [role, setRole] = useState<string>("");
+  const [nameManager, setNameManager] = useState<string>("");
+  const [activeStatusRequests, setActiveStatusRequests] = useState<string>('true');
+
+  const userToken = useSelector((state: RootState) => state.auth.userToken);
+
+  useEffect(() => {
+    if (userToken) {
+      const decoded: DecodedData = jwtDecode(userToken);
+      setRole(decoded.role);
+      setNameManager(decoded.name);
+    }
+  }, [userToken]);
+
+  useEffect(() => {
+    if (role) {
+      fetchRequests();
+    }
+  }, [role]);
 
   const fetchRequests = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:3000/api/client/support-requests/",
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        }
-      );
-      setRequests(response.data);
+      let url = role === "client"
+        ? "http://localhost:3000/api/client/support-requests/"
+        : "http://localhost:3000/api/common/support-requests/manager";
 
-      // Обновляем выбранный запрос, если он был выбран ранее
-      if (selectedRequest) {
-        const updatedRequest = response.data.find(
-          (req: Request) => req._id === selectedRequest._id
-        );
-        setSelectedRequest(updatedRequest || null);
-      }
+      const response = await axios.get(url, {
+        params: role === "manager" ? { isActive: activeStatusRequests } : {},
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      });
+
+      setRequests(response.data);
     } catch (error: any) {
-      console.error(
-        "Ошибка загрузки обращений в тех. поддержку пользователя",
-        error.message
-      );
+      console.error("Ошибка загрузки обращений", error.message);
     }
   };
 
   useEffect(() => {
-    fetchRequests();
-  }, []);
+    if (requests.length > 0 && selectedRequest) {
+      const updatedRequest = requests.find((req) => req._id === selectedRequest._id);
+      setSelectedRequest(updatedRequest || null);
+    }
+  }, [requests]);
 
   const handlerMessage = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -67,88 +91,73 @@ export const SupportRequests = () => {
 
     const dataMessage: Message = {
       author: selectedRequest.user,
-      role: "client",
-      name: selectedRequest.messages[0]?.name,
+      role: role === "client" ? "client" : "manager",
+      name: selectedRequest.messages[0]?.name || nameManager,
       text: textMessage,
     };
 
     try {
-      // Отправка сообщения
       await axios.post(
         `http://localhost:3000/api/common/support-requests/${selectedRequest._id}/messages`,
         dataMessage,
         {
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           withCredentials: true,
         }
       );
 
-      // После успешной отправки обновляем список запросов
       await fetchRequests();
-      setTextMessage(""); // Очищаем текстовое поле
+      setTextMessage("");
     } catch (error: any) {
-      console.log("Ошибка при создании сообщения пользователем: ", error.message);
+      console.log("Ошибка при создании сообщения:", error.message);
     }
   };
 
   return (
-    <div className="supportRequestContainer">
-      {/* Левая часть с таблицей запросов */}
-      <div className="requestsBox">
-        <table>
-          <thead>
-            <tr>
-              <th>Дата</th>
-              <th>Заголовок</th>
-            </tr>
-          </thead>
-          <tbody>
-            {requests.map((request) => (
-              <tr
-                key={request._id}
-                onClick={() => setSelectedRequest(request)}
-              >
-                <td>{new Date(request.createdAt).toLocaleDateString()}</td>
-                <td>{request.title}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+    <div className="suportRequestBox">
+      <div className="newRequest_button_box">
+        <Link to="/api/client/create-support-request">
+          <button type="button" className="newRequest_button">Новое обращение</button>
+        </Link>
       </div>
-
-      {/* Правая часть с сообщениями */}
-      <div className="requestBody">
-        {selectedRequest ? (
-          <>
-            {/* Сообщения */}
-            <div className="messageBox">
-              {selectedRequest.messages.map((message) => (
-                <div
-                  key={message._id}
-                  className={`message ${
-                    message.role === "client" ? "client" : "manager"
-                  }`}
-                >
-                  {message.text}
-                </div>
+      <div className="supportRequestContainer">
+        <div className="requestsBox">
+          <table>
+            <thead>
+              <tr>
+                <th>Дата</th>
+                <th>Заголовок</th>
+              </tr>
+            </thead>
+            <tbody>
+              {requests.map((request) => (
+                <tr key={request._id} onClick={() => setSelectedRequest(request)}>
+                  <td>{new Date(request.createdAt).toLocaleDateString()}</td>
+                  <td>{request.title}</td>
+                </tr>
               ))}
-            </div>
-
-            {/* Форма ответа */}
-            <form className="messageForm" onSubmit={handlerMessage}>
-              <textarea
-                placeholder="Введите сообщение..."
-                value={textMessage}
-                onChange={(e) => setTextMessage(e.target.value)}
-              />
-              <button type="submit">Отправить</button>
-            </form>
-          </>
-        ) : (
-          <div>Выберите запрос для отображения сообщений</div>
-        )}
+            </tbody>
+          </table>
+        </div>
+        <div className="requestBody">
+          {selectedRequest ? (
+            <>
+              <div className="messageBox">
+                {selectedRequest.messages.map((message) => (
+                  <div key={message._id} className={`message ${message.role}`}>
+                    {message.text}
+                  </div>
+                ))}
+              </div>
+              <form className="messageForm" onSubmit={handlerMessage}>
+                <textarea placeholder="Введите сообщение..." value={textMessage} onChange={(e) => setTextMessage(e.target.value)} />
+                <button type="submit">Отправить</button>
+              </form>
+            </>
+          ) : (
+            <div>Выберите запрос для отображения сообщений</div>
+          )}
+        </div>
       </div>
     </div>
   );
