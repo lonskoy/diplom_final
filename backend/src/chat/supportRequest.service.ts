@@ -9,11 +9,14 @@ export class SupportRequestService {
     constructor(@InjectModel(SupportRequest.name) private readonly supportRequestModel: Model<SupportRequestDoc>) { }
 
     async  getSupportRequests(params: GetChatListParams) { //найти обращения в тех. поддержку по id пользователя в статусе active, или только все обращения в статусе active
-        const query: any = { isActive: 'true' };
+                                                           // !!!!доработать что бы статус приходил с фрота         
+        const query: any = { isActive: true };
     
         if (params.user) {
             query.user = params.user;
         }
+
+        console.log(query);
     
         return await this.supportRequestModel.find(query);
     }

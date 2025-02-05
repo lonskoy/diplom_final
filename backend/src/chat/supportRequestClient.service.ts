@@ -36,7 +36,7 @@ export class SupportRequestClientService {
         const decodedUser = this.jwtService.verify(access_token);
         const userId = decodedUser.id;
 
-        return (await this.modelSupportRequest.find()).filter(el => el.user === userId)
+        return (await this.modelSupportRequest.find()).filter(el => el.user === userId && el.isActive);
     }
 
     async markMessagesAsRead(id: string) {

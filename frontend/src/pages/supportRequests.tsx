@@ -11,6 +11,7 @@ type Message = {
   role: string;
   name: string | undefined;
   text: string;
+  readAt: Date;
   _id?: string;
 };
 
@@ -61,7 +62,7 @@ export const SupportRequests = () => {
         : "http://localhost:3000/api/common/support-requests/manager";
 
       const response = await axios.get(url, {
-        params: role === "manager" ? { isActive: activeStatusRequests } : {},
+        params: role === "manager" ? { isActive: 'true' } : {},
         headers: {
           "Content-Type": "application/json",
         },
@@ -69,6 +70,7 @@ export const SupportRequests = () => {
       });
 
       setRequests(response.data);
+      console.log(response.data);
     } catch (error: any) {
       console.error("Ошибка загрузки обращений", error.message);
     }
@@ -89,10 +91,15 @@ export const SupportRequests = () => {
       return;
     }
 
+    if (!textMessage.trim()) {
+      console.warn("Нельзя отправить пустое сообщение!");
+      return;
+    }
+
     const dataMessage: Message = {
       author: selectedRequest.user,
       role: role === "client" ? "client" : "manager",
-      name: selectedRequest.messages[0]?.name || nameManager,
+      name: role === "client" ? selectedRequest.messages[0]?.name : nameManager,
       text: textMessage,
     };
 
@@ -110,6 +117,26 @@ export const SupportRequests = () => {
       setTextMessage("");
     } catch (error: any) {
       console.log("Ошибка при создании сообщения:", error.message);
+    }
+  };
+
+  const handleCloseRequest = async () => {
+    if (!selectedRequest) return;
+
+    try {
+      await axios.get(
+        `http://localhost:3000/api/common/support-requests/close/${selectedRequest._id}`,
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
+
+      // После закрытия обновляем список обращений
+      await fetchRequests();
+      setSelectedRequest(null); // Сбрасываем выбранное обращение
+    } catch (error: any) {
+      console.error("Ошибка при закрытии обращения:", error.message);
     }
   };
 
@@ -144,14 +171,28 @@ export const SupportRequests = () => {
             <>
               <div className="messageBox">
                 {selectedRequest.messages.map((message) => (
-                  <div key={message._id} className={`message ${message.role}`}>
-                    {message.text}
+
+                  <div className="messageContainer">
+                    <div
+                      className="readStatus"
+                      style={{ backgroundColor: message.readAt === null ? 'grey' : 'green' }}
+                    >
+                      Х
+                    </div>
+
+                    <div key={message._id} className={`message ${message.readAt}`}>
+                      {message.text}
+                    </div>
+
                   </div>
                 ))}
               </div>
               <form className="messageForm" onSubmit={handlerMessage}>
                 <textarea placeholder="Введите сообщение..." value={textMessage} onChange={(e) => setTextMessage(e.target.value)} />
-                <button type="submit">Отправить</button>
+                <button type="submit" className="buttonSend">Отправить</button>
+                {role === 'manager'
+                  ? <button type="button" className="buttonClosed" onClick={handleCloseRequest}>Закрыть обращение</button>
+                  : <></>}
               </form>
             </>
           ) : (

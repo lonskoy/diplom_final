@@ -11,7 +11,7 @@
     height: auto;
     width: 100%;
     margin-bottom: 50px;
-    border: 1px grey dotted;
+    border: 1px grey solid;
 }
 
 .newRequest_button {
@@ -78,6 +78,13 @@
     overflow-y: auto; /* Вертикальная прокрутка */
     padding-right: 10px; /* Отступ справа для скролла */
 }
+
+.messageContainer {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
   
 .message {
     margin: 10px 0;
@@ -88,13 +95,13 @@
 .message.client {
     background-color: #d4edda; /* Светло-зеленый */
     text-align: right;
-    max-width: 70%;
+    max-width: 100%;
 }
   
 .message.manager {
     background-color: #f8f9fa; /* Светло-серый */
     text-align: left;
-    max-width: 70%;
+    max-width: 100%;
 }
   
 /* -----------------Форма ответа */
@@ -111,7 +118,7 @@
     border-radius: 8px;
 }
   
-.messageForm button {
+.buttonSend {
     padding: 10px 20px;
     background-color: #007bff;
     color: #fff;
@@ -119,7 +126,16 @@
     border-radius: 8px;
     cursor: pointer;
 }
-  
-.messageForm button:hover {
-    background-color: #0056b3;
+
+.buttonClosed {
+    padding: 10px 20px;
+    background-color: red;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-left: 10px;
 }
+
+
+  
