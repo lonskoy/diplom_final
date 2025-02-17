@@ -7,7 +7,7 @@ import { User, UserDocument } from './schemas/user.schema';
 export class ManagerService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
-  async findAll(): Promise<any> {
+  async findAll(): Promise<any> { // выводит всех пользователей
     const users =  this.userModel.find().exec();
     const usersFiltred = (await users).map(user => ({
       id: user._id,

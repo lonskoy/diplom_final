@@ -73,7 +73,7 @@ export class ReservationService {
         return allReservationClient;
     }
 
-    async removeReservationClient( access_token: string, idReservation: string,) {
+    async removeReservationClient( access_token: string, idReservation: string) {
         let userId;
         try {
             const decoded = this.jwtService.verify(access_token); // Расшифровка JWT токена

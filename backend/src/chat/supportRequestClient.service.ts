@@ -13,7 +13,7 @@ export class SupportRequestClientService {
     private jwtService: JwtService
 ) {}     
 
-    async createSupportRequest (data: CreateSupportRequestDto, access_token: string) {
+    async createSupportRequest (data: CreateSupportRequestDto, access_token: string) { // Создание нового обращения
         const decodedUser = this.jwtService.verify(access_token);
         const {id, role, name } = decodedUser;
 
@@ -32,14 +32,14 @@ export class SupportRequestClientService {
   
     }
 
-    async findSupportRequestsClient(access_token: string) {
+    async findSupportRequestsClient(access_token: string) { // Найти все обращения клиента в статусе active
         const decodedUser = this.jwtService.verify(access_token);
         const userId = decodedUser.id;
 
         return (await this.modelSupportRequest.find()).filter(el => el.user === userId && el.isActive);
     }
 
-    async markMessagesAsRead(id: string) {
+    async markMessagesAsRead(id: string) { // отмечает открытые сообщения как прочитанные путем изменения значения поля readAt
         // Проверяем, существует ли документ с указанным ID
         const findedRequestClient = await this.modelSupportRequest.findById(id);
         if (!findedRequestClient) {
@@ -65,7 +65,7 @@ export class SupportRequestClientService {
         }
     }
 
-    async getUnreadCount(id: string) {
+    async getUnreadCount(id: string) { // выдает количество новых (непрочитанных) сообщений от клиента
         const findedRequestClient = await this.modelSupportRequest.findById(id);
         if (!findedRequestClient) {
             console.log(`Обращение с ID ${id} не найдено.`);
