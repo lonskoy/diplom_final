@@ -11,7 +11,7 @@ type Message = {
   role: string;
   name: string | undefined;
   text: string;
-  readAt: Date;
+  readAt?: Date;
   _id?: string;
 };
 
@@ -38,6 +38,7 @@ export const SupportRequests = () => {
   const [role, setRole] = useState<string>("");
   const [nameManager, setNameManager] = useState<string>("");
   const [activeStatusRequests, setActiveStatusRequests] = useState<string>('true');
+  const [urlMarkRead, setUrlMarkRead] = useState<string>('');
 
   const userToken = useSelector((state: RootState) => state.auth.userToken);
 
@@ -49,17 +50,17 @@ export const SupportRequests = () => {
     }
   }, [userToken]);
 
-  useEffect(() => {
-    if (role) {
-      fetchRequests();
-    }
-  }, [role]);
 
   const fetchRequests = async () => {
     try {
       let url = role === "client"
         ? "http://localhost:3000/api/client/support-requests/"
-        : "http://localhost:3000/api/common/support-requests/manager";
+        : "http://localhost:3000/api/common/support-requests/manager";   
+
+      let urlMarkRead = role === "client" // определяем путь для пометок о прочтении в зависимости от роли
+        ? "http://localhost:3000/api/common/client-mark-read/" 
+        : "http://localhost:3000/api/common/manager-mark-read/"
+      setUrlMarkRead(urlMarkRead);
 
       const response = await axios.get(url, {
         params: role === "manager" ? { isActive: 'true' } : {},
@@ -75,15 +76,41 @@ export const SupportRequests = () => {
       console.error("Ошибка загрузки обращений", error.message);
     }
   };
+  
+  useEffect(() => {
+    if (role) {
+      fetchRequests();
+    }
+  }, [role]);
+
+  useEffect(() => { // проставляет дату прочтения в сообщения
+    const markAsRead = async () => {
+      if (selectedRequest && urlMarkRead) {
+        try {
+          await axios.get(`${urlMarkRead}${selectedRequest._id}`, {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true
+          });
+        } catch (error) {
+          console.error("Ошибка при пометке как прочитанное:", error);
+        }
+      }
+    };
+  
+    markAsRead();
+  }, [selectedRequest, urlMarkRead]);
+  
 
   useEffect(() => {
     if (requests.length > 0 && selectedRequest) {
       const updatedRequest = requests.find((req) => req._id === selectedRequest._id);
-      setSelectedRequest(updatedRequest || null);
+      if (updatedRequest && updatedRequest !== selectedRequest) {
+        setSelectedRequest(updatedRequest);
+      }
     }
   }, [requests]);
 
-  const handlerMessage = async (e: React.FormEvent) => {
+  const handlerMessage = async (e: React.FormEvent) => { // отправка сообщения 
     e.preventDefault();
 
     if (!selectedRequest) {
@@ -115,14 +142,16 @@ export const SupportRequests = () => {
 
       await fetchRequests();
       setTextMessage("");
+
+
     } catch (error: any) {
       console.log("Ошибка при создании сообщения:", error.message);
     }
   };
 
-  const handleCloseRequest = async () => {
+  const handleCloseRequest = async () => { //закрытие обращения менеджером
     if (!selectedRequest) return;
-
+  
     try {
       await axios.get(
         `http://localhost:3000/api/common/support-requests/close/${selectedRequest._id}`,
@@ -131,10 +160,12 @@ export const SupportRequests = () => {
           withCredentials: true,
         }
       );
-
-      // После закрытия обновляем список обращений
-      await fetchRequests();
-      setSelectedRequest(null); // Сбрасываем выбранное обращение
+  
+      // Убираем закрытый запрос из локального состояния сразу, не дожидаясь запроса
+      setRequests((prevRequests) => prevRequests.filter(req => req._id !== selectedRequest._id));
+  
+      // Сбрасываем выбранный запрос
+      setSelectedRequest(null);
     } catch (error: any) {
       console.error("Ошибка при закрытии обращения:", error.message);
     }
@@ -180,7 +211,7 @@ export const SupportRequests = () => {
                       Х
                     </div>
 
-                    <div key={message._id} className={`message ${message.readAt}`}>
+                    <div key={message._id} className={message.role === 'client' ? 'messageClient' : 'messageManager'}>
                       {message.text}
                     </div>
 

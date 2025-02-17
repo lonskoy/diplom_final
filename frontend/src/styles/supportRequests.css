@@ -92,13 +92,13 @@
     border-radius: 8px;
 }
   
-.message.client {
+.messageClient {
     background-color: #d4edda; /* Светло-зеленый */
     text-align: right;
     max-width: 100%;
 }
   
-.message.manager {
+.messageManager {
     background-color: #f8f9fa; /* Светло-серый */
     text-align: left;
     max-width: 100%;

@@ -10,6 +10,7 @@ import { HotelRoomModule } from './hotel-room/hotel-room.module';
 import { ReservationModule } from './reservation/reservation.module';
 import { ChatModule } from './chat/chat.module';
 import { EnviromentModule } from './core/enviroment/enviroment.module';
+import { ChatGateway } from './chatOnline/chat.gateway';
 
 @Module({
   imports: [
@@ -26,6 +27,9 @@ import { EnviromentModule } from './core/enviroment/enviroment.module';
     ChatModule,
     EnviromentModule
   ],
+  providers: [
+    ChatGateway,
+  ]
 })
 
 export class AppModule implements OnModuleInit {
