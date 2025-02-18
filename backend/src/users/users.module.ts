@@ -13,7 +13,8 @@ import { Reservation, ReservationSchema } from '../reservation/schemas/reservati
 import { SupportRequestClientService } from '../chat/supportRequestClient.service';
 import { SupportRequestService } from '../chat/supportRequest.service';
 import { SupportRequest, SupportRequestSchema } from '../chat/schemas/support-request.schema';
-import { HotelRoomService } from '../hotel-room/hotel-room.service';
+import { EnviromentModule } from '../core/enviroment/enviroment.module';
+import { EnvironmentService } from '../core/enviroment/enviroment.service';
 
 @Module({
   imports: [
@@ -21,10 +22,14 @@ import { HotelRoomService } from '../hotel-room/hotel-room.service';
     MongooseModule.forFeature([{ name: HotelRoom.name, schema: HotelRoomSchema }]),
     MongooseModule.forFeature([{ name: Reservation.name, schema: ReservationSchema}]),
     MongooseModule.forFeature([{name: SupportRequest.name, schema: SupportRequestSchema}]),
-    JwtModule.register({ // Регистрируем JwtModule
-      secret: 'stranaferm40', // перенести в env
-      signOptions: { expiresIn: '1h' },
-    })
+    JwtModule.registerAsync({
+              imports: [EnviromentModule],
+              inject: [EnvironmentService],
+              useFactory: (environmentService: EnvironmentService) => ({
+                secret: environmentService.secret,
+                signOptions: { expiresIn: '1h' },
+              })
+            })
   ],
   providers: [UsersService, ClientService, ManagerService, SupportRequestClientService, SupportRequestService],
   controllers: [UsersController, ManagerController, ClientController],

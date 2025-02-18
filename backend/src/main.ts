@@ -1,25 +1,28 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ConfigService } from '@nestjs/config';
-import { ValidationPipe } from '@nestjs/common'
-import cookieParser from 'cookie-parser'
+import { ValidationPipe } from '@nestjs/common';
+
+import cookieParser from 'cookie-parser';
+import { EnvironmentService } from './core/enviroment/enviroment.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
   app.enableCors({
-    origin: 'http://localhost:5173', // Указывайте свой домен, с которого разрешен доступ
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Разрешенные методы
-    allowedHeaders: ['Content-Type', 'Authorization'], // Разрешенные заголовки
-    credentials: true // Разрешите куки
+    origin: 'http://localhost:5173',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
   });
-  app.setGlobalPrefix('api') // глобальный префикс для всех модулей
-  app.useGlobalPipes(new ValidationPipe({ whitelist: true })); // для валидации полей с помощью dto 
-  app.use(cookieParser()); // добавляет возможность читать куки
 
-  const configService = app.get(ConfigService); // Получение ConfigService через Nest.js DI
-  const port = configService.get<number>('PORT');
+  app.setGlobalPrefix('api');
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
+  app.use(cookieParser());
 
-  await app.listen(Number(port));
+  const environmentService = app.get(EnvironmentService);
+  const port = environmentService.port;
+
+  await app.listen(port);
   console.log('Сервер запущен на порту:', port);
 }
 

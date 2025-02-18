@@ -173,11 +173,14 @@ export const SupportRequests = () => {
 
   return (
     <div className="suportRequestBox">
-      <div className="newRequest_button_box">
-        <Link to="/api/client/create-support-request">
-          <button type="button" className="newRequest_button">Новое обращение</button>
-        </Link>
-      </div>
+      {role === 'client' 
+      ? <div className="newRequest_button_box">
+      <Link to="/api/client/create-support-request">
+        <button type="button" className="newRequest_button">Новое обращение</button>
+      </Link>
+    </div>
+      : <></>}
+      
       <div className="supportRequestContainer">
         <div className="requestsBox">
           <table>

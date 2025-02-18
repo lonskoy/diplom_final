@@ -9,36 +9,52 @@ import { HotelModule } from './hotel/hotel.module';
 import { HotelRoomModule } from './hotel-room/hotel-room.module';
 import { ReservationModule } from './reservation/reservation.module';
 import { ChatModule } from './chat/chat.module';
-import { EnviromentModule } from './core/enviroment/enviroment.module';
+
 import { ChatGateway } from './chatOnline/chat.gateway';
+import { EnviromentModule } from './core/enviroment/enviroment.module';
+import { EnvironmentService } from './core/enviroment/enviroment.service';
+
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb+srv://lonskoy0304:QeV6cIoPj2x5Y3K6@cluster0.lb8c1lp.mongodb.net/diplom?retryWrites=true&w=majority'), // как перенести в env??
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '../.env',
+    }),
+    MongooseModule.forRootAsync({
+      imports: [EnviromentModule], // Импортируем EnvironmentModule
+      inject: [EnvironmentService], // Внедряем EnvironmentService
+      useFactory: (environmentService: EnvironmentService) => ({
+        uri: environmentService.url_mongo, // Берем URL MongoDB из EnvironmentService
+      }),
+    }),
     UsersModule,
     AuthModule,
     HotelModule,
     HotelRoomModule,
-    ConfigModule.forRoot({
-      isGlobal: true, // Делает конфигурацию env доступной во всем приложении
-      envFilePath: '../.env'
-    }),
     ReservationModule,
     ChatModule,
-    EnviromentModule
+    EnviromentModule, 
   ],
-  providers: [
-    ChatGateway,
-  ]
+  providers: [ChatGateway],
 })
-
 export class AppModule implements OnModuleInit {
+  constructor(private readonly environmentService: EnvironmentService) {}
+
   async onModuleInit() {
+    const mongoUrl = this.environmentService.url_mongo;
+  
+    if (!mongoUrl) {
+      console.error('Ошибка: URL для подключения к MongoDB не найден в env!');
+      process.exit(1); // Останавливаем приложение
+    }
+  
     try {
-      await mongoose.connect('mongodb+srv://lonskoy0304:QeV6cIoPj2x5Y3K6@cluster0.lb8c1lp.mongodb.net/diplom?retryWrites=true&w=majority'); // как сделать сообщение о подключении в MomgooseModule?
-      console.log('Подключение к БД успешно')
+      await mongoose.connect(mongoUrl);
+      console.log('Подключение к БД успешно');
     } catch (error) {
-      console.log('Ошибка подключения к БД')
+      console.error('Ошибка подключения к БД:', error);
     }
   }
 }
+  

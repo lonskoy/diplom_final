@@ -6,15 +6,22 @@ import { ReservationSchema, Reservation } from './schemas/reservation.shema';
 import { HotelRoomModule } from '../hotel-room/hotel-room.module';
 import { JwtModule } from '@nestjs/jwt';
 import { ReservationManagerController } from './reservation.manager.controller';
+import { EnvironmentService } from './../core/enviroment/enviroment.service';
+import { EnviromentModule } from '../core/enviroment/enviroment.module';
 
-@Module({
+@Module(
+  {
   imports: [
     MongooseModule.forFeature([{ name: Reservation.name, schema: ReservationSchema }]), 
     HotelRoomModule,
-    JwtModule.register({ // Регистрируем JwtModule
-      secret: 'stranaferm40', // Здесь вы можете передавать переменную из .env, если настроите ConfigModule
-      signOptions: { expiresIn: '1h' },
-    }),
+    JwtModule.registerAsync({
+          imports: [EnviromentModule],
+          inject: [EnvironmentService],
+          useFactory: (environmentService: EnvironmentService) => ({
+            secret: environmentService.secret,
+            signOptions: { expiresIn: '1h' },
+          })
+        })
   ],
   controllers: [ReservationClientController, ReservationManagerController],
   providers: [ReservationService]

@@ -2,7 +2,6 @@ import { Controller, Get, Post, Put, Body, Param, UseGuards, Query } from '@nest
 import { HotelService } from '../hotel/hotel.service';
 import { AuthGuard } from '@nestjs/passport';
 import { CreateHotelDto } from '../hotel/dto/create-hotel.dto';
-import { Hotel } from '../hotel/schemas/hotel.schema';
 import { UpdateHotelParams } from '../hotel/dto/update-hotel.dto'
 import { SearchHotelParams } from './interfaces/SearchHotel.interface';
 
