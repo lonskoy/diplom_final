@@ -1,5 +1,6 @@
 import { FC, useState } from 'react';
 import '../styles/editRoom.css'; // Подключаем внешний CSS файл
+import axios from 'axios';
 
 
 export const EditRoom: FC = () => {
@@ -41,13 +42,6 @@ export const EditRoom: FC = () => {
         const formData = new FormData();
         formData.append('description', description);
     
-        // Создаем массив для старых изображений (если они есть)
-        const existingImages: string[] = [];
-        images.forEach((image) => existingImages.push(image));
-    
-        // Добавляем старые изображения в formData как JSON-строку
-        formData.append('images', JSON.stringify(existingImages));
-    
         // Добавляем новые изображения (если они есть)
         if (newImages) {
             Array.from(newImages).forEach((file) => {
@@ -57,10 +51,11 @@ export const EditRoom: FC = () => {
     
         try {
             console.log(formData);
-            await fetch(`http://localhost:3000/api/admin/hotel-rooms-edit/${roomId}`, {
-                method: 'PUT',
-                body: formData,
-                credentials: 'include',
+            await axios.put(`http://localhost:3000/api/admin/hotel-rooms-edit/${roomId}`,formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                },
+                withCredentials: true
             });
     
             // Очистка после успешного сохранения (опционально)
@@ -75,9 +70,12 @@ export const EditRoom: FC = () => {
     };
 
     // Удаление картинки из профиля номера
-    const handleRemoveImage = (index: number) => {
+    const handleRemoveImage = async (index: number, image: string) => {
+        const formData = new FormData();
+        formData.append("imageUrl", image);
+
         setImages((prevImages) => prevImages.filter((_, i) => i !== index));
-        console.log(images);
+        await axios.put(`http://localhost:3000/api/admin/hotel-rooms-edit/${roomId}`, formData)
     };
 
     return (
@@ -121,11 +119,11 @@ export const EditRoom: FC = () => {
                 {images.map((image, index) => (
                     <div key={index} className="image_container">
                         <img
-                            src={`/${image}`}
+                            src={image}
                             className="image"
                             alt={`Room ${index}`}
                         />
-                        <div className='imageRemove' onClick={()=>handleRemoveImage(index)}>Х</div>
+                        <div className='imageRemove' onClick={()=>handleRemoveImage(index, image)}>Х</div>
                     </div>
                 ))}
             </div>

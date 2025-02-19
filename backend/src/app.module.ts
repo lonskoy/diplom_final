@@ -13,10 +13,17 @@ import { ChatModule } from './chat/chat.module';
 import { ChatGateway } from './chatOnline/chat.gateway';
 import { EnviromentModule } from './core/enviroment/enviroment.module';
 import { EnvironmentService } from './core/enviroment/enviroment.service';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join, resolve } from 'node:path';
 
 
 @Module({
-  imports: [
+  imports: [  //модуль для сохранения статичных файлов на сервере и их раздачи   npm i @nestjs/serve-static
+    ServeStaticModule.forRoot({
+      rootPath: join(resolve(), 'uploads'),
+      serveRoot: '/uploads',
+    }),
+
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '../.env',

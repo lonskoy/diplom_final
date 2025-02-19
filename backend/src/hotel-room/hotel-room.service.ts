@@ -80,13 +80,25 @@ export class HotelRoomService {
         files: Express.Multer.File[]
     ) {
         try {
+            console.log(data, id);
             const room = await this.hotelRoomModel.findById(id);
             if (!room) {
                 throw new NotFoundException(`Комната с id: ${id} не найдена`)
             }
+
+            if(data.imageUrl) {   // удаляем картинку по кнопке
+                console.log('Зашел в условие ')
+                await this.hotelRoomModel.updateOne(
+                    {_id: id},
+                    { $pull: { images: data.imageUrl  } }
+                );
+                return
+                  
+            }
+
             const existingImages = room.images || [];
 
-            const newImages = files.map(file => `img/${file.filename}`);
+            const newImages = files.map(file => `http://localhost:3000/uploads/${file.filename}`);
             console.log(`Переданные новые картинки ${newImages}`); 
 
             const allImage = [...existingImages, ...newImages];

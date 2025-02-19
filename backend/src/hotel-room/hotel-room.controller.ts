@@ -10,7 +10,7 @@ import { extname } from 'path';
 import { UpdateHoteRoomlDto } from './dto/update-hotel-room.dto';
 import { SearchRoomsParams } from './interfaces/SearchRoomsParams.interface';
 
-@UseGuards(AuthGuard('admin'))
+// @UseGuards(AuthGuard('admin'))
 @Controller('admin')
 export class HotelRoomController {
     constructor(private readonly hotelRoomService: HotelRoomService) { }
@@ -20,7 +20,7 @@ export class HotelRoomController {
         FilesInterceptor('images', 10, {
 
             storage: diskStorage({
-                destination: '../frontend/public/img',
+                destination: './uploads',
                 filename: (req, file, cb) => {
                     const uniqueSuffix = `${uuidv4()}${extname(file.originalname)}`;
                     cb(null, uniqueSuffix);
@@ -42,7 +42,7 @@ export class HotelRoomController {
         @UploadedFiles() files: Express.Multer.File[]
     ) {
         console.log(files)
-        const imagePath = files.map(file => `img/${file.filename}`)
+        const imagePath = files.map(file => `http://localhost:3000/uploads/${file.filename}`)
         return this.hotelRoomService.create({ ...data, images: imagePath });
     }
 
@@ -62,7 +62,7 @@ export class HotelRoomController {
         FilesInterceptor('images', 10, {
 
             storage: diskStorage({
-                destination: '../img',
+                destination: './uploads',
                 filename: (req, file, cb) => {
                     const uniqueSuffix = `${uuidv4()}${extname(file.originalname)}`;
                     cb(null, uniqueSuffix);
@@ -81,7 +81,7 @@ export class HotelRoomController {
     )
     async updateRoomById(@Param('id') id: string, @Body() data: UpdateHoteRoomlDto, @UploadedFile() files: Express.Multer.File[]) {
         console.log(data)
-        return await this.hotelRoomService.updateById(id, data, files || []) // метод НЕ РАБОТАЕТ корректно, по чему то файлы на сервер добавляет, но в сервис передает undefined
+        return await this.hotelRoomService.updateById(id, data, files || []) 
     }
 
 }

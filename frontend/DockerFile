@@ -1,0 +1,29 @@
+# Этап 1: Сборка приложения с помощью Node.js
+FROM node:18 AS builder
+
+# Устанавливаем рабочую директорию внутри контейнера
+WORKDIR /app
+
+# Копируем файлы зависимостей
+COPY package*.json ./
+
+# Устанавливаем зависимости
+RUN npm install
+
+# Копируем весь исходный код
+COPY . .
+
+# Собираем приложение (команда "build" выполняет "tsc -b && vite build")
+RUN npm run build
+
+# Этап 2: Отдача собранного приложения с помощью Nginx
+FROM nginx:alpine
+
+# Копируем содержимое папки dist, которая сформировалась на этапе сборки, в папку для статики Nginx
+COPY --from=builder /app/dist /usr/share/nginx/html
+
+# Открываем порт 80 для доступа к приложению
+EXPOSE 80
+
+# Запускаем Nginx в foreground
+CMD ["nginx", "-g", "daemon off;"]

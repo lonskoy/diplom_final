@@ -9,6 +9,6 @@ export class CreateHotelDto {
   @IsNotEmpty()
   description: string;
 
-  @IsString()
-  text: string;
+  // @IsString()
+  // text: string;
 }
