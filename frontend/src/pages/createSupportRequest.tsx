@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
-import "../styles/CreateSupportRequest.css";
+import "../styles/createSupportRequest.css";
 
 export const CreateSupportRequest = () => {
     const [title, setTitle] = useState("");

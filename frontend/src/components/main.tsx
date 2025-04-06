@@ -32,7 +32,7 @@ export const Main: FC = () => {
     const userToken = useSelector((state: RootState) => state.auth.userToken);
     const [role, setRole] = useState<string>('');
     const [name, setName] = useState<string>('');
-    const [userId, setUserId] = useState<string>('');
+    // const [userId, setUserId] = useState<string>('');
     const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
     const [message, setMessage] = useState<string>("");
     const [messages, setMessages] = useState<{ senderName: string, message: string }[]>([]);
@@ -42,7 +42,7 @@ export const Main: FC = () => {
             const decoded: DecodedData = jwtDecode(userToken);
             setRole(decoded.role);
             setName(decoded.name);
-            setUserId(decoded.id);
+            // setUserId(decoded.id);
 
             socket.emit("join", decoded.id);
         }

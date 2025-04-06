@@ -2,18 +2,32 @@ version: "3.8"
 services:
   backend:
     build:
-      context: .
-      dockerfile: ./backend/Dockerfile
+      context: ./backend
+      dockerfile: DockerFile
     ports:
       - "3000:3000"
     environment:
       - NODE_ENV=production
+      - URL_MONGO=mongodb+srv://lonskoy0304:QeV6cIoPj2x5Y3K6@cluster0.lb8c1lp.mongodb.net/diplom?retryWrites=true&w=majority
+    depends_on:
+      - mongo  # Бэкенд зависит от MongoDB, если ты хочешь запускать Mongo внутри docker, можно оставить
 
   frontend:
     build:
-      context: .
-      dockerfile: ./frontend/Dockerfile
+      context: ./frontend
+      dockerfile: DockerFile
     ports:
       - "5173:5173"
     depends_on:
       - backend
+
+  mongo:
+    image: mongo:latest  # Это можно оставить, если хочешь использовать локальный MongoDB контейнер
+    container_name: mongo
+    ports:
+      - "27017:27017"  # Порт для подключения к базе данных
+    volumes:
+      - mongo-data:/data/db  # Объем для сохранения данных MongoDB, если нужно хранить данные локально
+
+volumes:
+  mongo-data:  # Создаем volume для сохранения данных MongoDB

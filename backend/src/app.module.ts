@@ -45,7 +45,7 @@ import { join, resolve } from 'node:path';
   ],
   providers: [ChatGateway],
 })
-export class AppModule implements OnModuleInit {
+export class AppModule implements OnModuleInit { // запускаем базу благодаря хуку OnModulInit
   constructor(private readonly environmentService: EnvironmentService) {}
 
   async onModuleInit() {

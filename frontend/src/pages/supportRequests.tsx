@@ -37,7 +37,7 @@ export const SupportRequests = () => {
   const [textMessage, setTextMessage] = useState("");
   const [role, setRole] = useState<string>("");
   const [nameManager, setNameManager] = useState<string>("");
-  const [activeStatusRequests, setActiveStatusRequests] = useState<string>('true');
+  // const [activeStatusRequests, setActiveStatusRequests] = useState<string>('true');
   const [urlMarkRead, setUrlMarkRead] = useState<string>('');
 
   const userToken = useSelector((state: RootState) => state.auth.userToken);

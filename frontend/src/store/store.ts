@@ -1,4 +1,4 @@
-import { configureStore, createSlice, isAction } from "@reduxjs/toolkit";
+import { configureStore, createSlice } from "@reduxjs/toolkit";
 import Cookies from 'js-cookie';
 
 // Начальное состояние для ролей

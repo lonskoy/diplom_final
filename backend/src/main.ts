@@ -16,7 +16,7 @@ async function bootstrap() {
   });
 
   app.setGlobalPrefix('api');
-  app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true })); // делает валидацию данных DTO, и не пропускает данные не описанные в DTO (объект передачи данных).
   app.use(cookieParser());
 
   const environmentService = app.get(EnvironmentService);
