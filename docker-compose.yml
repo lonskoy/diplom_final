@@ -9,6 +9,7 @@ services:
     environment:
       - NODE_ENV=production
       - URL_MONGO=mongodb+srv://lonskoy0304:QeV6cIoPj2x5Y3K6@cluster0.lb8c1lp.mongodb.net/diplom?retryWrites=true&w=majority
+      - JWT_SECRET='stranaferm40'
     depends_on:
       - mongo  
   frontend:
